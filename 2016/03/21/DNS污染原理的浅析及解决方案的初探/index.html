@@ -80,7 +80,7 @@
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic15.jpg">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic16.jpg">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic17.jpg">
-<meta property="og:updated_time" content="2016-04-04T14:58:12.435Z">
+<meta property="og:updated_time" content="2016-04-05T11:33:51.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS污染原理的浅析及解决方案的初探">
 <meta name="twitter:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。本文将探究IPv6环">
@@ -288,9 +288,9 @@
 
       
         <p>生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。<br>访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。<br>本文将探究IPv6环境下的DNS流量劫持。<br> <a id="more"></a></p>
-<h2 id="一、研究背景"><a href="#一、研究背景" class="headerlink" title="一、研究背景"></a>一、研究背景</h2><p>本课题研究的背景是在陕西师范大学的校园网下，由于DNS遭到污染，使用IPv6接入无法访问Google搜索、谷歌学术、维基百科等网站。这给广大师生们的科研学习生活造成了极大的不便。</p>
+<h3 id="一、研究背景"><a href="#一、研究背景" class="headerlink" title="一、研究背景"></a>一、研究背景</h3><p>本课题研究的背景是在陕西师范大学的校园网下，由于DNS遭到污染，使用IPv6接入无法访问Google搜索、谷歌学术、维基百科等网站。这给广大师生们的科研学习生活造成了极大的不便。</p>
 <p>例如，由于受到了DNS污染，访问谷歌搜索的主页：www.google.com将出现“ERR_CONNETION_ABORTED”。如图1所示，出现了“错误，连接中止”的情况是因为该域名在DNS解析时，被解析到一个虚假的IP地址，导致我们无法正常使用谷歌搜索。<br><img src="/images/dnspollutionpic01.jpg" alt=""><center>图1 无法访问谷歌搜索的主页<center></center></center></p>
-<h2 id="二、问题的发现"><a href="#二、问题的发现" class="headerlink" title="二、问题的发现"></a>二、问题的发现</h2><p>大学校园网IPv6接入的条件下，在Windows平台上利用nslookup命令，使用谷歌的公共DNS服务器：2001:4860:4860::8888，对域名www.google.com进行DNS解析。</p>
+<h3 id="二、问题的发现"><a href="#二、问题的发现" class="headerlink" title="二、问题的发现"></a>二、问题的发现</h3><p>大学校园网IPv6接入的条件下，在Windows平台上利用nslookup命令，使用谷歌的公共DNS服务器：2001:4860:4860::8888，对域名www.google.com进行DNS解析。</p>
 <p>查询结果返回了一个AAAA类的地址：21:2::22，一个A类地址：127.0.0.1，如图2所示。<br><img src="/images/dnspollutionpic02.jpg" alt=""><center>图2 对www.google.com进行DNS解析<center></center></center></p>
 <p>再次使用该命令，对域名www.facebook.com进行域名解析。查询返回了一个AAAA类的地址：21:2::22，一个A类地址：1.2.3.4，如图3所示。<br><img src="/images/dnspollutionpic03.jpg" alt=""><center>图3 对www.facebook.com进行DNS解析<center><br>特别注意，当我们对www.google.com和www.facebook.com进行DNS解析时，我们收到了相同的AAAA类地址：21:2::22。众所周知，Google公司和Facebook公司是在纽约上市的两家独立的两家公司。两家公司的域名不可能绑定在同一个IP地址上，由此可知，一定是我们的查询出了问题。</center></center></p>
 <p>为了对比，我们使用一台位于旧金山的主机，该VPS具有IPv4和IPv6网络。和先前的实验相同，同样使用谷歌的公共DNS服务器，对域名www.google.com进行解析。图4所示，我们解析到的IP地址不再是21:2::2，而是2607:f8b0:4005:803::2004。<br><img src="/images/dnspollutionpic04.jpg" alt=""><center>图4 使用旧金山的虚拟主机进行DNS查询<center></center></center></p>
@@ -310,7 +310,7 @@
 <li>DNS服务器并没有出现问题，是我们发送DNS查询报文或者接收DNS响应报文的过程中出了差错。</li>
 </ul>
 <p>在此，我们将DNS污染定义为DNS污染是指一些刻意制造或者无意中制造出的DNS数据包，将域名解析成不正确的IP地址。</p>
-<h2 id="三、原理浅析"><a href="#三、原理浅析" class="headerlink" title="三、原理浅析"></a>三、原理浅析</h2><h4 id="1-DNS污染的理论基础"><a href="#1-DNS污染的理论基础" class="headerlink" title="1.DNS污染的理论基础"></a>1.DNS污染的理论基础</h4><p>DNS污染的理论基础主要有两点。其一是DNS报文仅仅使用16bit的标识符来确认DNS查询报文与响应报文是否匹配。且标识符是由客户端程序设置并由服务器返回相同的标识符。</p>
+<h3 id="三、原理浅析"><a href="#三、原理浅析" class="headerlink" title="三、原理浅析"></a>三、原理浅析</h3><h4 id="1-DNS污染的理论基础"><a href="#1-DNS污染的理论基础" class="headerlink" title="1.DNS污染的理论基础"></a>1.DNS污染的理论基础</h4><p>DNS污染的理论基础主要有两点。其一是DNS报文仅仅使用16bit的标识符来确认DNS查询报文与响应报文是否匹配。且标识符是由客户端程序设置并由服务器返回相同的标识符。</p>
 <p>其二是DNS服务器使用的熟知端口号无论对UDP还是TCP都是53。这意味着DNS均支持UDP和TCP访问。DNS主要使用UDP。其中DNS主要使用UDP进行查询是因为UDP是无连接的，而TCP是面向连接的，若使用TCP进行DNS查询，则客户机必须与服务器进行TCP的三次握手，必将降低查询的速率。所以主流操作系统的DNS查询均默认使用UDP。</p>
 <h4 id="2-DNS污染的实现原理"><a href="#2-DNS污染的实现原理" class="headerlink" title="2.DNS污染的实现原理"></a>2.DNS污染的实现原理</h4><p>为了更好的说明DNS污染的实现，我们先画一个简单的示意图。客户机发送的DNS查询报文将经过交换机、路由器、防火墙等设备，最终到达服务器。</p>
 <p>我们假设在防火墙上设有网址黑名单，当同时满足条件：</p>
@@ -331,7 +331,7 @@
 <h4 id="4-DNS污染的原理的小结"><a href="#4-DNS污染的原理的小结" class="headerlink" title="4.DNS污染的原理的小结"></a>4.DNS污染的原理的小结</h4><p>在陕西师范大学校园网络下，收到的DNS污染有两个方面。一方面，客户机向DNS服务器发送查询报文时，报文在传输的过程中受到了监听，攻击者假装成DNS服务器向客户机发送虚假的响应报文，我们称为虚假报文，并且该报文比真正的响应报文抢先到达了客户机；另一方面，真正的DNS响应报文在经过防火墙或网关时，查询结果可能被修改成“No such name”，我们称为被修改过的报文。</p>
 <p>结合先前的图2和图3我们可以知道，因为虚假报文抢先在被修改过的报文到达客户机，所以客户机只记录了虚假报文的响应结果。但真正的被修改过的报文在wireshark抓包中可以看到。</p>
 <p>故DNS污染的攻击者不仅模拟成DNS服务器发送虚假的DNS响应报文给客户机，而且还拦截真正的响应报文，并修改后发给客户机。</p>
-<h2 id="四、解决方案"><a href="#四、解决方案" class="headerlink" title="四、解决方案"></a>四、解决方案</h2><h4 id="1-使用TCP进行查询"><a href="#1-使用TCP进行查询" class="headerlink" title="1.使用TCP进行查询"></a>1.使用TCP进行查询</h4><p>若强制使用TCP查询，则客户机与DNS服务器进行TCP三次握手后，客户机可以收到正确的DNS响应报文。如图14，在windows下使用，nslookup命令并加上-vc参数即可强制使用TCP发送DNS查询报文。<br><img src="/images/dnspollutionpic14.jpg" alt=""><center>图14 通过TCP进行的DNS查询<center></center></center></p>
+<h3 id="四、解决方案"><a href="#四、解决方案" class="headerlink" title="四、解决方案"></a>四、解决方案</h3><h4 id="1-DNS污染的原理的小结"><a href="#1-DNS污染的原理的小结" class="headerlink" title="1.DNS污染的原理的小结"></a>1.DNS污染的原理的小结</h4><p>若强制使用TCP查询，则客户机与DNS服务器进行TCP三次握手后，客户机可以收到正确的DNS响应报文。如图14，在windows下使用，nslookup命令并加上-vc参数即可强制使用TCP发送DNS查询报文。<br><img src="/images/dnspollutionpic14.jpg" alt=""><center>图14 通过TCP进行的DNS查询<center></center></center></p>
 <p>我们无法强制每次均使用TCP进行DNS查询，windows下可以将查询后的结果写成hosts条目。<br><img src="/images/dnspollutionpic15.jpg" alt=""><center>图15 查询结果可写入Hosts<center></center></center></p>
 <p>在陕西师范大学校园网下，我们就可以通过IPv6正常访问该网站了。当然，该方法的缺陷是随着hosts添加的条目增多，人工管理hosts的成本将增大。下面将介绍一种改进方法。</p>
 <h4 id="2-借助第三方软件——DNSCrypt"><a href="#2-借助第三方软件——DNSCrypt" class="headerlink" title="2.借助第三方软件——DNSCrypt"></a>2.借助第三方软件——DNSCrypt</h4><p>DNSCrypt是OpenDNS发布的加密DNS工具，可加密DNS流量。OpenDNS是总部位于美国的DNS解析提供服务商，提供免费的DNS解析服务。</p>
@@ -491,7 +491,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、研究背景"><span class="nav-number">1.</span> <span class="nav-text">一、研究背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、问题的发现"><span class="nav-number">2.</span> <span class="nav-text">二、问题的发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、原理浅析"><span class="nav-number">3.</span> <span class="nav-text">三、原理浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-DNS污染的理论基础"><span class="nav-number">3.0.1.</span> <span class="nav-text">1.DNS污染的理论基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS污染的实现原理"><span class="nav-number">3.0.2.</span> <span class="nav-text">2.DNS污染的实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DNS污染的抓包分析"><span class="nav-number">3.0.3.</span> <span class="nav-text">3.DNS污染的抓包分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-DNS污染的原理的小结"><span class="nav-number">3.0.4.</span> <span class="nav-text">4.DNS污染的原理的小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、解决方案"><span class="nav-number">4.</span> <span class="nav-text">四、解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-使用TCP进行查询"><span class="nav-number">4.0.1.</span> <span class="nav-text">1.使用TCP进行查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-借助第三方软件——DNSCrypt"><span class="nav-number">4.0.2.</span> <span class="nav-text">2.借助第三方软件——DNSCrypt</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、研究背景"><span class="nav-text">一、研究背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、问题的发现"><span class="nav-text">二、问题的发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、原理浅析"><span class="nav-text">三、原理浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-DNS污染的理论基础"><span class="nav-text">1.DNS污染的理论基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS污染的实现原理"><span class="nav-text">2.DNS污染的实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DNS污染的抓包分析"><span class="nav-text">3.DNS污染的抓包分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-DNS污染的原理的小结"><span class="nav-text">4.DNS污染的原理的小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、解决方案"><span class="nav-text">四、解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-DNS污染的原理的小结"><span class="nav-text">1.DNS污染的原理的小结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-借助第三方软件——DNSCrypt"><span class="nav-text">2.借助第三方软件——DNSCrypt</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
