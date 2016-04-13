@@ -57,12 +57,14 @@
 
 
 
-<meta name="description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。本文将探究IPv6环">
+<meta name="description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。
+访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DNS污染原理的浅析及解决方案的初探">
-<meta property="og:url" content="http://yoursite.com/2016/03/21/DNS污染原理的浅析及解决方案的初探/index.html">
+<meta property="og:title" content="DNS污染的原理浅析及解决方案的初探">
+<meta property="og:url" content="http://yoursite.com/2016/03/21/DNS污染的原理浅析及解决方案的初探/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。本文将探究IPv6环">
+<meta property="og:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。
+访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic01.jpg">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic02.jpg">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic03.jpg">
@@ -80,10 +82,12 @@
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic15.jpg">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic16.jpg">
 <meta property="og:image" content="http://yoursite.com/images/dnspollutionpic17.jpg">
-<meta property="og:updated_time" content="2016-04-05T11:33:51.325Z">
+<meta property="og:image" content="http://yoursite.com/images/dnspollutionpic17.jpg">
+<meta property="og:updated_time" content="2016-04-13T13:01:51.407Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DNS污染原理的浅析及解决方案的初探">
-<meta name="twitter:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。本文将探究IPv6环">
+<meta name="twitter:title" content="DNS污染的原理浅析及解决方案的初探">
+<meta name="twitter:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。
+访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。">
 <meta name="twitter:image" content="http://yoursite.com/images/dnspollutionpic01.jpg">
 
 
@@ -102,7 +106,7 @@
   };
 </script>
 
-  <title> DNS污染原理的浅析及解决方案的初探 | Aragaki's Blog </title>
+  <title> DNS污染的原理浅析及解决方案的初探 | Aragaki's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -222,7 +226,7 @@
             
             
               
-                DNS污染原理的浅析及解决方案的初探
+                DNS污染的原理浅析及解决方案的初探
               
             
           </h1>
@@ -264,8 +268,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/21/DNS污染原理的浅析及解决方案的初探/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/21/DNS污染原理的浅析及解决方案的初探/" itemprop="commentsCount"></span>
+                <a href="/2016/03/21/DNS污染的原理浅析及解决方案的初探/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/21/DNS污染的原理浅析及解决方案的初探/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -287,9 +291,11 @@
       
 
       
-        <p>生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。<br>访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。<br>本文将探究IPv6环境下的DNS流量劫持。<br> <a id="more"></a></p>
+        <p>生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。</p>
+<p>访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。</p>
+ <a id="more"></a>
 <h3 id="一、研究背景"><a href="#一、研究背景" class="headerlink" title="一、研究背景"></a>一、研究背景</h3><p>本课题研究的背景是在陕西师范大学的校园网下，由于DNS遭到污染，使用IPv6接入无法访问Google搜索、谷歌学术、维基百科等网站。这给广大师生们的科研学习生活造成了极大的不便。</p>
-<p>例如，由于受到了DNS污染，访问谷歌搜索的主页：www.google.com将出现“ERR_CONNETION_ABORTED”。如图1所示，出现了“错误，连接中止”的情况是因为该域名在DNS解析时，被解析到一个虚假的IP地址，导致我们无法正常使用谷歌搜索。<br><img src="/images/dnspollutionpic01.jpg" alt=""><center>图1 无法访问谷歌搜索的主页<center></center></center></p>
+<p>例如，由于受到了DNS污染，访问谷歌搜索的主页：www.google.com将出现“ERR_CONNETION_ABORTED”。如图1所示，出现了“错误，连接中止”的情况是因为该域名在DNS解析时，被解析到一个虚假的IP地址，导致我们无法正常使用谷歌搜索。<br><img src="/images/dnspollutionpic01.jpg" class="img01"><center>图1 无法访问谷歌搜索的主页<center></center></center></p>
 <h3 id="二、问题的发现"><a href="#二、问题的发现" class="headerlink" title="二、问题的发现"></a>二、问题的发现</h3><p>大学校园网IPv6接入的条件下，在Windows平台上利用nslookup命令，使用谷歌的公共DNS服务器：2001:4860:4860::8888，对域名www.google.com进行DNS解析。</p>
 <p>查询结果返回了一个AAAA类的地址：21:2::22，一个A类地址：127.0.0.1，如图2所示。<br><img src="/images/dnspollutionpic02.jpg" alt=""><center>图2 对www.google.com进行DNS解析<center></center></center></p>
 <p>再次使用该命令，对域名www.facebook.com进行域名解析。查询返回了一个AAAA类的地址：21:2::22，一个A类地址：1.2.3.4，如图3所示。<br><img src="/images/dnspollutionpic03.jpg" alt=""><center>图3 对www.facebook.com进行DNS解析<center><br>特别注意，当我们对www.google.com和www.facebook.com进行DNS解析时，我们收到了相同的AAAA类地址：21:2::22。众所周知，Google公司和Facebook公司是在纽约上市的两家独立的两家公司。两家公司的域名不可能绑定在同一个IP地址上，由此可知，一定是我们的查询出了问题。</center></center></p>
@@ -338,7 +344,7 @@
 <p>值得一提的是2015年6月30日，思科公司宣布收购 OpenDNS ，交易的价格约为6.35亿美元。</p>
 <p>DNSCrypt是一款开源软件，它的工作原理是运行在客户机上的DNSCrypt使用密钥KEY和DNS服务器进行交互，如图16所示，我们可以看见KEY和服务器的IP地址。<br><img src="/images/dnspollutionpic16.jpg" alt=""><center>图16 DNSCrypt的部分源代码<center></center></center></p>
 <p>软件的使用方法很简单，下载安装包，安装运行之后将主机的DNS服务器改成127.0.0.1即可直接使用。</p>
-<p>至此，我们就可以成功访问Google等网站了。<br><img src="/images/dnspollutionpic17.jpg" alt=""></p>
+<p>至此，我们就可以成功访问Google等网站了。<br><img src="/images/dnspollutionpic17.jpg" alt=""><center>图15 查询结果可写入Hosts<center><br><img src="/images/dnspollutionpic17.jpg" class="img"><center>图15 查询结果可写入Hosts<center></center></center></center></center></p>
 
       
     </div>
@@ -394,8 +400,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/21/DNS污染原理的浅析及解决方案的初探/"
-           data-title="DNS污染原理的浅析及解决方案的初探" data-url="http://yoursite.com/2016/03/21/DNS污染原理的浅析及解决方案的初探/">
+      <div class="ds-thread" data-thread-key="2016/03/21/DNS污染的原理浅析及解决方案的初探/"
+           data-title="DNS污染的原理浅析及解决方案的初探" data-url="http://yoursite.com/2016/03/21/DNS污染的原理浅析及解决方案的初探/">
       </div>
     
   </div>
