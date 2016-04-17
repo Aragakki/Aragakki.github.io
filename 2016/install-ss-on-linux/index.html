@@ -59,20 +59,17 @@
 
 
 
-<meta name="description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。
-准备设施一台能连上IPv6网络的PC机、一台支持IPv4和IPv6双协议栈的VPS（例如Linode、DigitalOce">
+<meta name="description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于校园网IPv6环境下的免费上网教程">
 <meta property="og:url" content="http://www.aragakki.com/2016/install-ss-on-linux/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。
-准备设施一台能连上IPv6网络的PC机、一台支持IPv4和IPv6双协议栈的VPS（例如Linode、DigitalOce">
+<meta property="og:description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。">
 <meta property="og:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG">
-<meta property="og:updated_time" content="2016-04-17T15:38:32.971Z">
+<meta property="og:updated_time" content="2016-04-17T15:42:29.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于校园网IPv6环境下的免费上网教程">
-<meta name="twitter:description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。
-准备设施一台能连上IPv6网络的PC机、一台支持IPv4和IPv6双协议栈的VPS（例如Linode、DigitalOce">
+<meta name="twitter:description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。">
 <meta name="twitter:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG">
 
 
@@ -258,6 +255,7 @@
 
       
         <h4 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h4><p>上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。</p>
+ <a id="more"></a>
 <h4 id="准备设施"><a href="#准备设施" class="headerlink" title="准备设施"></a>准备设施</h4><p>一台能连上IPv6网络的PC机、一台支持IPv4和IPv6双协议栈的VPS（例如Linode、DigitalOcean等，此外在Github上可以获取DigitalOcean的学生优惠码）。</p>
 <h4 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h4><h5 id="1-登陆到服务器"><a href="#1-登陆到服务器" class="headerlink" title="1.登陆到服务器"></a>1.登陆到服务器</h5><p>使用Putty登陆到VPS，使用IPv4或者IPv6都可以。在Host Name(or IP address)中输入IP地址就行。<br><img src="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG" alt=""></p>
 <h5 id="2-安装Shadowsocks"><a href="#2-安装Shadowsocks" class="headerlink" title="2.安装Shadowsocks"></a>2.安装Shadowsocks</h5><p>Debian / Ubuntu:</p>
