@@ -1,0 +1,804 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta name="google-site-verification" content="KsBP1EYFqmzFQTSM-v-LlnbEEcE9c-QTL1qOkQt-LEE" />
+<meta name="baidu-site-verification" content="cVmRPhqLFJ" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DNS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。
+访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DNS污染的原理浅析及解决方案的初探">
+<meta property="og:url" content="http://www.aragakki.com/2016/PollutionAboutDNS/index.html">
+<meta property="og:site_name" content="Aragaki's Blog">
+<meta property="og:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。
+访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic01.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic02.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic03.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic04.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic05.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic06.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic07.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic08.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic09.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic10.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic11.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic12.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic13.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic14.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic15.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic16.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic17.jpg">
+<meta property="og:image" content="http://www.aragakki.com/images/dnspollutionpic17.jpg">
+<meta property="og:updated_time" content="2016-04-13T13:08:10.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DNS污染的原理浅析及解决方案的初探">
+<meta name="twitter:description" content="生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。
+访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。">
+<meta name="twitter:image" content="http://www.aragakki.com/images/dnspollutionpic01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> DNS污染的原理浅析及解决方案的初探 | Aragaki's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Aragaki's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                DNS污染的原理浅析及解决方案的初探
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-21T00:00:19+08:00" content="2016-02-21">
+              2016-02-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Technology/" itemprop="url" rel="index">
+                    <span itemprop="name">Technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/PollutionAboutDNS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/PollutionAboutDNS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>生活中，我们会遇到各种各样的流量劫持，如DNS劫持、HTTP劫持。虽然2015年11月，全国首例流量劫持被判入刑，但流量劫持仍无处不在。</p>
+<p>访问购物网站，会先转跳到广告联盟的网站再转跳回去，原先的URL总会被加上奇怪的后缀。以至于淘宝网、百度搜索等网站纷纷启用了HTTPS。当我们在浏览器上输入了一个错误的域名，我们看到的是宽带运营商提供的”温馨“的页面。而这些都是流量劫持的一部分。</p>
+ <a id="more"></a>
+<h3 id="一、研究背景"><a href="#一、研究背景" class="headerlink" title="一、研究背景"></a>一、研究背景</h3><p>本课题研究的背景是在陕西师范大学的校园网下，由于DNS遭到污染，使用IPv6接入无法访问Google搜索、谷歌学术、维基百科等网站。这给广大师生们的科研学习生活造成了极大的不便。</p>
+<p>例如，由于受到了DNS污染，访问谷歌搜索的主页：www.google.com将出现“ERR_CONNETION_ABORTED”。如图1所示，出现了“错误，连接中止”的情况是因为该域名在DNS解析时，被解析到一个虚假的IP地址，导致我们无法正常使用谷歌搜索。<br><img src="/images/dnspollutionpic01.jpg" class="img01"><center>图1 无法访问谷歌搜索的主页<center></center></center></p>
+<h3 id="二、问题的发现"><a href="#二、问题的发现" class="headerlink" title="二、问题的发现"></a>二、问题的发现</h3><p>大学校园网IPv6接入的条件下，在Windows平台上利用nslookup命令，使用谷歌的公共DNS服务器：2001:4860:4860::8888，对域名www.google.com进行DNS解析。</p>
+<p>查询结果返回了一个AAAA类的地址：21:2::22，一个A类地址：127.0.0.1，如图2所示。<br><img src="/images/dnspollutionpic02.jpg" alt=""><center>图2 对www.google.com进行DNS解析<center></center></center></p>
+<p>再次使用该命令，对域名www.facebook.com进行域名解析。查询返回了一个AAAA类的地址：21:2::22，一个A类地址：1.2.3.4，如图3所示。<br><img src="/images/dnspollutionpic03.jpg" alt=""><center>图3 对www.facebook.com进行DNS解析<center><br>特别注意，当我们对www.google.com和www.facebook.com进行DNS解析时，我们收到了相同的AAAA类地址：21:2::22。众所周知，Google公司和Facebook公司是在纽约上市的两家独立的两家公司。两家公司的域名不可能绑定在同一个IP地址上，由此可知，一定是我们的查询出了问题。</center></center></p>
+<p>为了对比，我们使用一台位于旧金山的主机，该VPS具有IPv4和IPv6网络。和先前的实验相同，同样使用谷歌的公共DNS服务器，对域名www.google.com进行解析。图4所示，我们解析到的IP地址不再是21:2::2，而是2607:f8b0:4005:803::2004。<br><img src="/images/dnspollutionpic04.jpg" alt=""><center>图4 使用旧金山的虚拟主机进行DNS查询<center></center></center></p>
+<p>关于上面所查询到的IP地址，使用Whois查询上面所有IP地址的所者。</p>
+<ol>
+<li><p>IP为2607:f8b0:4005:803::2004的所有者是Google公司，如图5所示。<br><img src="/images/dnspollutionpic05.jpg" alt=""><center>图5 Whois查询<center></center></center></p>
+</li>
+<li><p>IP为21:2::2的所有者是在多个网站均查询不到，如图6所示。我们可以大胆猜测这是一个虚假的IP地址。<br><img src="/images/dnspollutionpic06.jpg" alt=""><center>图6 Whois查询不到结果<center></center></center></p>
+</li>
+<li><p>1.2.3.4地址的所有者是亚太互联网络信息中心，如图7所示。该地址不是Facebook公司的。也不是指向Facebook的IP地址，而是一个错误的地址。<br><img src="/images/dnspollutionpic07.jpg" alt=""><center>图7 IP为1.2.3.4的所有者<center></center></center></p>
+</li>
+</ol>
+<p>基于上述实验，我们可以得出以下结论：</p>
+<ul>
+<li>在陕西师范大学校园网下，使用IPv6进行DNS查询可能得到错误的或者是虚 假的IP地址。</li>
+<li>在旧金山的主机上使用相同的DNS服务器（DNS服务器均为2001:4860:4860::8888）进行DNS查询，能查询到正确的IP地址。</li>
+<li>DNS服务器并没有出现问题，是我们发送DNS查询报文或者接收DNS响应报文的过程中出了差错。</li>
+</ul>
+<p>在此，我们将DNS污染定义为DNS污染是指一些刻意制造或者无意中制造出的DNS数据包，将域名解析成不正确的IP地址。</p>
+<h3 id="三、原理浅析"><a href="#三、原理浅析" class="headerlink" title="三、原理浅析"></a>三、原理浅析</h3><h4 id="1-DNS污染的理论基础"><a href="#1-DNS污染的理论基础" class="headerlink" title="1.DNS污染的理论基础"></a>1.DNS污染的理论基础</h4><p>DNS污染的理论基础主要有两点。其一是DNS报文仅仅使用16bit的标识符来确认DNS查询报文与响应报文是否匹配。且标识符是由客户端程序设置并由服务器返回相同的标识符。</p>
+<p>其二是DNS服务器使用的熟知端口号无论对UDP还是TCP都是53。这意味着DNS均支持UDP和TCP访问。DNS主要使用UDP。其中DNS主要使用UDP进行查询是因为UDP是无连接的，而TCP是面向连接的，若使用TCP进行DNS查询，则客户机必须与服务器进行TCP的三次握手，必将降低查询的速率。所以主流操作系统的DNS查询均默认使用UDP。</p>
+<h4 id="2-DNS污染的实现原理"><a href="#2-DNS污染的实现原理" class="headerlink" title="2.DNS污染的实现原理"></a>2.DNS污染的实现原理</h4><p>为了更好的说明DNS污染的实现，我们先画一个简单的示意图。客户机发送的DNS查询报文将经过交换机、路由器、防火墙等设备，最终到达服务器。</p>
+<p>我们假设在防火墙上设有网址黑名单，当同时满足条件：</p>
+<ul>
+<li>目的端口是53号端口的报文</li>
+<li>是一个UDP报文</li>
+<li>请求的内容中包含敏感内容（敏感内容可以是黑名单中的网址）</li>
+</ul>
+<p>当满足上述条件时，由于DNS主要用UDP来查询，故防火墙完全可以伪造出一个虚假的DNS响应报文给客户机，这样客户机就不可能得到真正的IP地址。</p>
+<p>现在我们假设网址www.google.com在黑名单中，则对该域名的53号端口的DNS查询报文，客户机将收到防火墙或网关发送的虚假的报文。</p>
+<h4 id="3-DNS污染的抓包分析"><a href="#3-DNS污染的抓包分析" class="headerlink" title="3.DNS污染的抓包分析"></a>3.DNS污染的抓包分析</h4><p>1.通过UDP发送的DNS查询报文如图8所示。该报文具有鲜明的特征，例如目的端口号是53，通过UDP传输，请求内容是www.google.com。<br><img src="/images/dnspollutionpic08.jpg" alt=""><center>图8 通过UDP发送的DNS查询报文<center></center></center></p>
+<p>2.系统发送一个DNS查询报文后，将收到两个响应报文，如图9所示。并且这并不是个别现象，几乎每个查询报文都会收到两个响应报文，如图10所示。<br><img src="/images/dnspollutionpic09.jpg" alt=""><center>图9 一个查询报文，两个响应报文<center><br><img src="/images/dnspollutionpic10.jpg" alt=""><center>图10 收到两个对应标识符的响应报文<center></center></center></center></center></p>
+<p>3.当我们细心观察我们收到的DNS响应报文时，我们可以发现里面有DNS报文从发送到接收的时间，如图11所示，这里的时间是0.102139秒。</p>
+<p>在地图上，我们测量西安市到美国西海岸大约是11,298.37千米；在工程上，光在光纤中的传播速度是200,000千米/秒（在《计算机网络：自顶向下方法》书本中，传播速度也是取200,000千米/秒，故此处我们选用200,000千米/秒而非300,000千米/秒是有依据的）。</p>
+<p>同时我们忽略处理时延、排队时延、传输时延，仅计算传播时延，则西安到美国西海岸的往返时间至少为：t=11,298.37*2/200000=0.1129837秒。而实际上的往返时间至少为0.150秒，甚至达到0.300秒。所以我们可以猜测，图11所接收到的数据包不是真正的DNS服务器发送给我们的。<br><img src="/images/dnspollutionpic11.jpg" alt=""><center>图11 一个往返时间远低于正常时间的数据包<center></center></center></p>
+<p>在我们继续观察Wireshark抓包结果时，一个事实印证了我们的猜想。如图12所示，标识符为0002的查询报文收到了3个响应报文，其中一个响应报文比前面两个都更迟收到，且内容是“No such name”。我们查看该报文的往返时间，如图13所示，往返时间是0.268097秒，远大于之前收到的0.102139秒的报文。而标识符为0003的数据包具有相同的情况。</p>
+<p>此外，图13显示的往返时间才像是数据包真正往返美国的时间。<br><img src="/images/dnspollutionpic12.jpg" alt=""><center>图12 一个迟到的响应报文<center><br><img src="/images/dnspollutionpic13.jpg" alt=""><center>图13 正常的往返时间<center></center></center></center></center></p>
+<h4 id="4-DNS污染的原理的小结"><a href="#4-DNS污染的原理的小结" class="headerlink" title="4.DNS污染的原理的小结"></a>4.DNS污染的原理的小结</h4><p>在陕西师范大学校园网络下，收到的DNS污染有两个方面。一方面，客户机向DNS服务器发送查询报文时，报文在传输的过程中受到了监听，攻击者假装成DNS服务器向客户机发送虚假的响应报文，我们称为虚假报文，并且该报文比真正的响应报文抢先到达了客户机；另一方面，真正的DNS响应报文在经过防火墙或网关时，查询结果可能被修改成“No such name”，我们称为被修改过的报文。</p>
+<p>结合先前的图2和图3我们可以知道，因为虚假报文抢先在被修改过的报文到达客户机，所以客户机只记录了虚假报文的响应结果。但真正的被修改过的报文在wireshark抓包中可以看到。</p>
+<p>故DNS污染的攻击者不仅模拟成DNS服务器发送虚假的DNS响应报文给客户机，而且还拦截真正的响应报文，并修改后发给客户机。</p>
+<h3 id="四、解决方案"><a href="#四、解决方案" class="headerlink" title="四、解决方案"></a>四、解决方案</h3><h4 id="1-DNS污染的原理的小结"><a href="#1-DNS污染的原理的小结" class="headerlink" title="1.DNS污染的原理的小结"></a>1.DNS污染的原理的小结</h4><p>若强制使用TCP查询，则客户机与DNS服务器进行TCP三次握手后，客户机可以收到正确的DNS响应报文。如图14，在windows下使用，nslookup命令并加上-vc参数即可强制使用TCP发送DNS查询报文。<br><img src="/images/dnspollutionpic14.jpg" alt=""><center>图14 通过TCP进行的DNS查询<center></center></center></p>
+<p>我们无法强制每次均使用TCP进行DNS查询，windows下可以将查询后的结果写成hosts条目。<br><img src="/images/dnspollutionpic15.jpg" alt=""><center>图15 查询结果可写入Hosts<center></center></center></p>
+<p>在陕西师范大学校园网下，我们就可以通过IPv6正常访问该网站了。当然，该方法的缺陷是随着hosts添加的条目增多，人工管理hosts的成本将增大。下面将介绍一种改进方法。</p>
+<h4 id="2-借助第三方软件——DNSCrypt"><a href="#2-借助第三方软件——DNSCrypt" class="headerlink" title="2.借助第三方软件——DNSCrypt"></a>2.借助第三方软件——DNSCrypt</h4><p>DNSCrypt是OpenDNS发布的加密DNS工具，可加密DNS流量。OpenDNS是总部位于美国的DNS解析提供服务商，提供免费的DNS解析服务。</p>
+<p>值得一提的是2015年6月30日，思科公司宣布收购 OpenDNS ，交易的价格约为6.35亿美元。</p>
+<p>DNSCrypt是一款开源软件，它的工作原理是运行在客户机上的DNSCrypt使用密钥KEY和DNS服务器进行交互，如图16所示，我们可以看见KEY和服务器的IP地址。<br><img src="/images/dnspollutionpic16.jpg" alt=""><center>图16 DNSCrypt的部分源代码<center></center></center></p>
+<p>软件的使用方法很简单，下载安装包，安装运行之后将主机的DNS服务器改成127.0.0.1即可直接使用。</p>
+<p>至此，我们就可以成功访问Google等网站了。<br><img src="/images/dnspollutionpic17.jpg" alt=""><center>图15 查询结果可写入Hosts<center><br><img src="/images/dnspollutionpic17.jpg" class="img"><center>图15 查询结果可写入Hosts<center></center></center></center></center></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DNS/" rel="tag">#DNS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/a-picture-about-overflow/" rel="prev" title="从一张关于溢出的图片说起">
+                从一张关于溢出的图片说起 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/PollutionAboutDNS/"
+           data-title="DNS污染的原理浅析及解决方案的初探" data-url="http://www.aragakki.com/2016/PollutionAboutDNS/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Mengwei" />
+          <p class="site-author-name" itemprop="name">Mengwei</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、研究背景"><span class="nav-text">一、研究背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、问题的发现"><span class="nav-text">二、问题的发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、原理浅析"><span class="nav-text">三、原理浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-DNS污染的理论基础"><span class="nav-text">1.DNS污染的理论基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS污染的实现原理"><span class="nav-text">2.DNS污染的实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DNS污染的抓包分析"><span class="nav-text">3.DNS污染的抓包分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-DNS污染的原理的小结"><span class="nav-text">4.DNS污染的原理的小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、解决方案"><span class="nav-text">四、解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-DNS污染的原理的小结"><span class="nav-text">1.DNS污染的原理的小结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-借助第三方软件——DNSCrypt"><span class="nav-text">2.借助第三方软件——DNSCrypt</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mengwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wodedspl"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
