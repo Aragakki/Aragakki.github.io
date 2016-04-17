@@ -377,9 +377,25 @@
           
             <h4 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h4><p>上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。</p>
 <h4 id="准备设施"><a href="#准备设施" class="headerlink" title="准备设施"></a>准备设施</h4><p>一台能连上IPv6网络的PC机、一台支持IPv4和IPv6双协议栈的VPS（例如Linode、DigitalOcean等，此外在Github上可以获取DigitalOcean的学生优惠码）。</p>
-<h4 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h4><h5 id="登陆到服务器"><a href="#登陆到服务器" class="headerlink" title="登陆到服务器"></a>登陆到服务器</h5><p>使用Putty登陆到VPS，使用IPv4或者IPv6都可以。在Host Name(or IP address)中输入IP地址就行。<br><img src="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG" alt=""></p>
-<h5 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks"></a>安装Shadowsocks</h5><p>Debian / Ubuntu:<br>    apt-get install python-pip<br>    pip install shadowsocks</p>
-<p>CentOS:<br>    yum install python-setuptools &amp;&amp; easy_install pip<br>    pip install shadowsocks</p>
+<h4 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h4><h5 id="1-登陆到服务器"><a href="#1-登陆到服务器" class="headerlink" title="1.登陆到服务器"></a>1.登陆到服务器</h5><p>使用Putty登陆到VPS，使用IPv4或者IPv6都可以。在Host Name(or IP address)中输入IP地址就行。<br><img src="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG" alt=""></p>
+<h5 id="2-安装Shadowsocks"><a href="#2-安装Shadowsocks" class="headerlink" title="2.安装Shadowsocks"></a>2.安装Shadowsocks</h5><p>Debian / Ubuntu:</p>
+<pre><code>    apt-get install python-pip
+    pip install shadowsocks
+</code></pre>
+CentOS:
+<pre><code>    yum install python-setuptools && easy_install pip
+    pip install shadowsocks
+</code></pre>
+
+<h5 id="3-配置Shadowsocks"><a href="#3-配置Shadowsocks" class="headerlink" title="3.配置Shadowsocks"></a>3.配置Shadowsocks</h5><p>创建/etc/shadowsocks.json文件，文件内容如下</p>
+<p><pre><code>{<br>    “server”:”::”,<br>    “server_port”:5435,<br>    “local_address”: “127.0.0.1”,<br>    “local_port”:1080,<br>    “password”:”mypassword”,<br>    “timeout”:300,<br>    “method”:”aes-256-cfb”<br>}</code></pre><br>其中</p>
+<ul>
+<li>server字段填::的意思是服务器同时监听IPv4和IPv6，可以改成指定的IPv4或IPv6地址。</li>
+<li>server_port字段是服务器监听的端口号，避免使用周知端口号。</li>
+<li>method是加密方式，RC4或者ASE均可。</li>
+</ul>
+<h5 id="4-启动"><a href="#4-启动" class="headerlink" title="4.启动"></a>4.启动</h5><pre><code>ssserver -c /etc/shadowsocks.json -d start
+</code></pre><p>停止的话将start改成stop即可。</p>
 
           
         
@@ -580,7 +596,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
