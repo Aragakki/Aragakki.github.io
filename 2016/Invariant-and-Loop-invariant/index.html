@@ -59,16 +59,16 @@
 
 
 
-<meta name="description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》，都会用到循环不变式。">
+<meta name="description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》、《编程珠玑》，都会介绍循环不变式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="不变式和循环不变式">
 <meta property="og:url" content="http://www.aragakki.com/2016/Invariant-and-Loop-invariant/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》，都会用到循环不变式。">
-<meta property="og:updated_time" content="2016-04-23T07:05:59.458Z">
+<meta property="og:description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》、《编程珠玑》，都会介绍循环不变式。">
+<meta property="og:updated_time" content="2016-04-23T15:43:58.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="不变式和循环不变式">
-<meta name="twitter:description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》，都会用到循环不变式。">
+<meta name="twitter:description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》、《编程珠玑》，都会介绍循环不变式。">
 
 
 
@@ -271,17 +271,36 @@
       
 
       
-        <p>不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》，都会用到循环不变式。<br> <a id="more"></a></p>
+        <p>不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》、《编程珠玑》，都会介绍循环不变式。<br> <a id="more"></a></p>
 <h3 id="不变式"><a href="#不变式" class="headerlink" title="不变式"></a>不变式</h3><p>不变式（Invariant）是一个在程序执行过程中永远保持成立的条件。不变式在检测程序是否正确方面非常有用。例如编译器优化就用到了不变式。维基百科上用了MU puzzle的例子来证明不变式是非常有用的。</p>
 <h3 id="循环不变式"><a href="#循环不变式" class="headerlink" title="循环不变式"></a>循环不变式</h3><p>循环不变式（Loop Invariant）是在循环的第一次迭代前、循环中的每一次迭代和循环结束后都为真的不变式。也可以将循环不变式看作是一个逻辑断言。</p>
 <p>《算法导论》中使用循环不变式来证明插入排序的正确性。插入排序由N-1趟排序组成，插入排序的第i趟（i的范围是从1到N-1）都保证了从位置0到位置i-1的元素是已经排序的。从位置0到i-1都是已经排序的，这就可以被称为是插入排序的循环不变式。</p>
-<p>循环不变式能够检测程序的正确性的必要条件：</p>
+<p>循环不变式要能够检测程序，必须具有下面3个性质：</p>
 <ul>
-<li><strong>初始化（Initialization）：</strong>It is true prior to the first iteration of the loop.</li>
-<li><strong>保持（Maintenance）：</strong>If it is true before an iteration of the loop, it remains true before the next iteration.</li>
+<li><strong>初始化（Initialization）：</strong>循环初次执行前，不变式为真。</li>
+<li><strong>保持（Maintenance）：</strong>循环的迭代</li>
 <li><strong>终止（Termination）：</strong>When the loop terminates, the invariant gives us a useful property that helps show that the algorithm is correct.</li>
 </ul>
 <p>循环不变式和数学归纳法有类似之处。循环不变式的初始化对应数学归纳法的初始步骤，保持对应着数学归纳法的保持步骤。循环不变式与数学归纳法的差别在于循环不变式多了一个终止步骤，终止用于查看循环终止时发生的事件。在插入排序的例子中，终止时所有元素都已排序，所以排序算法是正确的。</p>
+<h3 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h3><p>以二分搜索为例，二分搜索的思想是在一次搜索的过程中，若没有找到目标元素，就将当前的搜索范围减半。二分搜索的思想虽然简单，但要正确运行却并不简单。《TAOCP,Volum 3》中指出第一篇二分搜索论文在1946年发表，但第一个没有错误的二分搜索程序在1962年才出现。</p>
+<pre><code>int binaryFind(const vector<int> &a,int key)
+{
+    int low = 0, high = a.size() - 1;
+    int mid = low + high / 2;
+    while (low <= high)="" {="" if="" (a[mid]=""> key)
+            high = mid - 1;
+        else if (a[mid] < key)
+            low = mid + 1;
+        else if (a[mid] == key)
+            return mid;
+        mid = low + (high-low) / 2;
+    }
+    return -1;
+}</=></int></code></pre>
+
+<h4 id="选取不变式"><a href="#选取不变式" class="headerlink" title="选取不变式"></a>选取不变式</h4><p>基于二分搜索的思想，我们可以选择出二分搜索的不变式：目标元素key如果在数组x[0…N-1]中，那么key一定在[0，N-1]的范围内。</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>初始化的时候，low和high分别被初始化为0和N-1。如果key在数组x中，那么key一定在x[0..N-1]中，所以不变式为真。</p>
+<h4 id="保持"><a href="#保持" class="headerlink" title="保持"></a>保持</h4><p><a href="http://www.cnblogs.com/wuyuegb2312/archive/2013/05/26/3090369.html" target="_blank" rel="external">http://www.cnblogs.com/wuyuegb2312/archive/2013/05/26/3090369.html</a></p>
 
       
     </div>
@@ -434,7 +453,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#不变式"><span class="nav-text">不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环不变式"><span class="nav-text">循环不变式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#不变式"><span class="nav-text">不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环不变式"><span class="nav-text">循环不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个例子"><span class="nav-text">一个例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选取不变式"><span class="nav-text">选取不变式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保持"><span class="nav-text">保持</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
