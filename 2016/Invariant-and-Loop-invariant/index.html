@@ -65,7 +65,7 @@
 <meta property="og:url" content="http://www.aragakki.com/2016/Invariant-and-Loop-invariant/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
 <meta property="og:description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》、《编程珠玑》，都会介绍循环不变式。">
-<meta property="og:updated_time" content="2016-05-13T15:08:36.680Z">
+<meta property="og:updated_time" content="2016-05-13T15:50:13.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="不变式和循环不变式">
 <meta name="twitter:description" content="不变式和循环不变式这一概念在许多的书上都有涉及，从介绍语言的《C++程序设计原理与实践》到讲算法的《算法导论》、《编程珠玑》，都会介绍循环不变式。">
@@ -282,25 +282,27 @@
 <li><strong>终止（Termination）：</strong>When the loop terminates, the invariant gives us a useful property that helps show that the algorithm is correct.</li>
 </ul>
 <p>循环不变式和数学归纳法有类似之处。循环不变式的初始化对应数学归纳法的初始步骤，保持对应着数学归纳法的保持步骤。循环不变式与数学归纳法的差别在于循环不变式多了一个终止步骤，终止用于查看循环终止时发生的事件。在插入排序的例子中，终止时所有元素都已排序，所以排序算法是正确的。</p>
-<h3 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h3><p>以二分搜索为例，二分搜索的思想是在一次搜索的过程中，若没有找到目标元素，就将当前的搜索范围减半。二分搜索的思想虽然简单，但要正确运行却并不简单。《TAOCP,Volum 3》中指出第一篇二分搜索论文在1946年发表，但第一个没有错误的二分搜索程序在1962年才出现。</p>
-<pre><code>int binaryFind(const vector<int> &a,int key)
+<h3 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h3><p>以二分搜索为例，二分搜索的思想是在一次搜索的过程中，若没有找到目标元素，就将当前的搜索范围减半。二分搜索的思想虽然简单，但要正确运行却并不简单。《TAOCP, Volum 3》中指出第一篇二分搜索论文在1946年发表，但第一个没有错误的二分搜索程序在1962年才出现。</p>
+<pre><code>int binaryFind(const vector&lt;int&gt; &amp;a,int key)
 {
     int low = 0, high = a.size() - 1;
     int mid = low + high / 2;
-    while (low <= high)="" {="" if="" (a[mid]=""> key)
+    while(low &lt;= high)
+    {
+        if(a[mid] &gt; key)
             high = mid - 1;
-        else if (a[mid] < key)
+        else if(a[mid] &lt; key)
             low = mid + 1;
         else if (a[mid] == key)
             return mid;
         mid = low + (high-low) / 2;
     }
     return -1;
-}</=></int></code></pre>
-
-<h4 id="选取不变式"><a href="#选取不变式" class="headerlink" title="选取不变式"></a>选取不变式</h4><p>基于二分搜索的思想，我们可以选择出二分搜索的不变式：目标元素key如果在数组x[0…N-1]中，那么key一定在[0，N-1]的范围内。</p>
-<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>初始化的时候，low和high分别被初始化为0和N-1。如果key在数组x中，那么key一定在x[0..N-1]中，所以不变式为真。</p>
-<h4 id="保持"><a href="#保持" class="headerlink" title="保持"></a>保持</h4><p>循环</p>
+}
+</code></pre><h5 id="选取不变式"><a href="#选取不变式" class="headerlink" title="　　选取不变式"></a>　　选取不变式</h5><p>基于二分搜索的思想，我们可以选择出二分搜索的不变式：目标元素key如果在数组x[0…N-1]中，那么key一定在[0，N-1]的范围内。</p>
+<h5 id="初始化"><a href="#初始化" class="headerlink" title="　　初始化"></a>　　初始化</h5><p>初始化的时候，low和high分别被初始化为0和N-1。如果key在数组x中，那么key一定在x[0..N-1]中，所以不变式为真。</p>
+<h5 id="保持"><a href="#保持" class="headerlink" title="　　保持"></a>　　保持</h5><p>循环中，<br>  1.若a[mid] &gt; key，则key可能存在于a[0,..,mid-1]中。此时将数组缩减一半，key还存在于数组中，循环不变式成立。<br>  2.若a[mid] &lt; key，则key可能存在于a[mid+1,…,high]中。此时数组减小一半，key存在于数组中，循环不变式成立<br>  3.若a[mid] == key，返回下标。循环不变式成立。</p>
+<h5 id="终止"><a href="#终止" class="headerlink" title="　　终止"></a>　　终止</h5><p>循环终止时，low&gt;high，key也不存在于数组中。</p>
 
       
     </div>
@@ -453,7 +455,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#不变式"><span class="nav-text">不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环不变式"><span class="nav-text">循环不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个例子"><span class="nav-text">一个例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选取不变式"><span class="nav-text">选取不变式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保持"><span class="nav-text">保持</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#不变式"><span class="nav-text">不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环不变式"><span class="nav-text">循环不变式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个例子"><span class="nav-text">一个例子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#选取不变式"><span class="nav-text">　　选取不变式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化"><span class="nav-text">　　初始化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#保持"><span class="nav-text">　　保持</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#终止"><span class="nav-text">　　终止</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
