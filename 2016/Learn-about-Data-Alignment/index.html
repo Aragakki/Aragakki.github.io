@@ -43,7 +43,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Loop Invariant," />
+  <meta name="keywords" content="数据对齐,内存对齐," />
 
 
 
@@ -59,16 +59,19 @@
 
 
 
-<meta name="description">
+<meta name="description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="空白">
-<meta property="og:url" content="http://www.aragakki.com/2016/null-title/index.html">
+<meta property="og:title" content="数据对齐学习笔记">
+<meta property="og:url" content="http://www.aragakki.com/2016/Learn-about-Data-Alignment/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description">
-<meta property="og:updated_time" content="2016-05-14T07:09:13.101Z">
+<meta property="og:description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
+<meta property="og:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/aligment01.jpg">
+<meta property="og:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/aligment02.jpg">
+<meta property="og:updated_time" content="2016-05-14T14:31:48.036Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="空白">
-<meta name="twitter:description">
+<meta name="twitter:title" content="数据对齐学习笔记">
+<meta name="twitter:description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
+<meta name="twitter:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/aligment01.jpg">
 
 
 
@@ -86,7 +89,7 @@
   };
 </script>
 
-  <title> 空白 | Aragaki's Blog </title>
+  <title> 数据对齐学习笔记 | Aragaki's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -206,7 +209,7 @@
             
             
               
-                空白
+                数据对齐学习笔记
               
             
           </h1>
@@ -218,8 +221,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-20T20:05:49+08:00" content="2016-04-20">
-              2016-04-20
+            <time itemprop="dateCreated" datetime="2016-05-13T15:43:49+08:00" content="2016-05-13">
+              2016-05-13
             </time>
           </span>
 
@@ -248,8 +251,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/null-title/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/null-title/" itemprop="commentsCount"></span>
+                <a href="/2016/Learn-about-Data-Alignment/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/Learn-about-Data-Alignment/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -271,7 +274,13 @@
       
 
       
-        
+        <p>数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2<sup>n</sup>（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。</p>
+ <a id="more"></a>
+<h4 id="一、为什么数据对齐"><a href="#一、为什么数据对齐" class="headerlink" title="一、为什么数据对齐"></a>一、为什么数据对齐</h4><p> 数据对齐限制了对象在内存中的存放位置，数据对齐的意义在于提高了数据访问的效率。例如，一个处理器一次能够从存储器中读取4 Byte的数据，如果存放的地址是4的倍数，则处理器只要访问存储器一次就可以完成数据的读取；如果存储地址不是4的倍数，处理器要访问存储器两次来完成数据的读取。</p>
+<p> 下图是前半部分是进行了对齐，后半部分是未进行对齐的一种可能情况。为进行对齐需要处理器读取两次，第一次是读取地址为0~3的部分数据，第二次读取地址为4~7的部分数据。<br> <img src="http://7xt2ht.com2.z0.glb.clouddn.com/aligment01.jpg" alt=""></p>
+<p> 数据对齐可能会浪费一部分内存空间。如下图所示，偏移量为0的位置存放了4 Byte的对象i，这4 Byte之后存着1 Byte的对象c，要在c之后存放4 Byte的对象i，且要满足4 Byte对齐的原则，那么j的偏移量应为8。然而偏移为5~7的地址空间没有存储任何信息。这造成了一定的空间浪费。<br> <img src="http://7xt2ht.com2.z0.glb.clouddn.com/aligment02.jpg" alt=""></p>
+<p> 所以，数据对齐和算法中的空间换时间的思想是一样的。</p>
+<h4 id="二、数据对齐的规则"><a href="#二、数据对齐的规则" class="headerlink" title="二、数据对齐的规则"></a>二、数据对齐的规则</h4>
       
     </div>
 
@@ -285,7 +294,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Loop-Invariant/" rel="tag">#Loop Invariant</a>
+            <a href="/tags/数据对齐/" rel="tag">#数据对齐</a>
+          
+            <a href="/tags/内存对齐/" rel="tag">#内存对齐</a>
           
         </div>
       
@@ -294,17 +305,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/a-picture-about-overflow/" rel="next" title="从一张关于溢出的图片说起">
-                <i class="fa fa-chevron-left"></i> 从一张关于溢出的图片说起
+              <a href="/2016/Invariant-and-Loop-invariant/" rel="next" title="不变式和循环不变式">
+                <i class="fa fa-chevron-left"></i> 不变式和循环不变式
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/Invariant-and-Loop-invariant/" rel="prev" title="不变式和循环不变式">
-                不变式和循环不变式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -330,8 +337,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/null-title/"
-           data-title="空白" data-url="http://www.aragakki.com/2016/null-title/">
+      <div class="ds-thread" data-thread-key="2016/Learn-about-Data-Alignment/"
+           data-title="数据对齐学习笔记" data-url="http://www.aragakki.com/2016/Learn-about-Data-Alignment/">
       </div>
     
   </div>
@@ -393,7 +400,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -427,7 +434,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、为什么数据对齐"><span class="nav-text">一、为什么数据对齐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、数据对齐的规则"><span class="nav-text">二、数据对齐的规则</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
