@@ -43,7 +43,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="IPv6," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -59,18 +59,16 @@
 
 
 
-<meta name="description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。">
+<meta name="description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于校园网IPv6环境下的免费上网教程">
-<meta property="og:url" content="http://www.aragakki.com/2016/install-ss-on-linux/index.html">
+<meta property="og:title" content="一种获得数字签名和公开密钥加密的方法">
+<meta property="og:url" content="http://www.aragakki.com/2016/Translation-about-RSA/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。">
-<meta property="og:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG">
-<meta property="og:updated_time" content="2016-05-22T13:10:36.549Z">
+<meta property="og:description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
+<meta property="og:updated_time" content="2016-05-31T13:28:50.111Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于校园网IPv6环境下的免费上网教程">
-<meta name="twitter:description" content="理论基础上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。">
-<meta name="twitter:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG">
+<meta name="twitter:title" content="一种获得数字签名和公开密钥加密的方法">
+<meta name="twitter:description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
 
 
 
@@ -88,7 +86,7 @@
   };
 </script>
 
-  <title> 基于校园网IPv6环境下的免费上网教程 | Aragaki's Blog </title>
+  <title> 一种获得数字签名和公开密钥加密的方法 | Aragaki's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -208,7 +206,7 @@
             
             
               
-                基于校园网IPv6环境下的免费上网教程
+                一种获得数字签名和公开密钥加密的方法
               
             
           </h1>
@@ -220,8 +218,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-24T20:05:49+08:00" content="2016-03-24">
-              2016-03-24
+            <time itemprop="dateCreated" datetime="2016-05-29T21:10:19+08:00" content="2016-05-29">
+              2016-05-29
             </time>
           </span>
 
@@ -234,8 +232,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Technology/" itemprop="url" rel="index">
-                    <span itemprop="name">Technology</span>
+                  <a href="/categories/Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Note</span>
                   </a>
                 </span>
 
@@ -250,8 +248,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/install-ss-on-linux/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/install-ss-on-linux/" itemprop="commentsCount"></span>
+                <a href="/2016/Translation-about-RSA/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/Translation-about-RSA/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -273,30 +271,24 @@
       
 
       
-        <h4 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h4><p>上网的原理是基于各大高校的目前只针对IPv4进行计费，对IPv6则不计费。虽然如Google、YouTube等部分网站支持IPv6访问，但国内大部分网页不支持IPv6访问。因此我们通过IPv6，利用一台主机转发我们IPv4的流量，就可以进行免费上网，可以剩下一笔网费。</p>
+        <p>数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2<sup>n</sup>（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。</p>
  <a id="more"></a>
-<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>一台能连上IPv6网络的PC机、一台支持IPv4和IPv6双协议栈的VPS（例如Linode、DigitalOcean等，此外在Github上可以获取DigitalOcean的学生优惠码）。</p>
-<h4 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h4><h5 id="1-登陆到服务器"><a href="#1-登陆到服务器" class="headerlink" title="1.登陆到服务器"></a>1.登陆到服务器</h5><p>使用Putty登陆到VPS，使用IPv4或者IPv6都可以。在Host Name(or IP address)中输入IP地址就行。<br><img src="http://7xt2ht.com2.z0.glb.clouddn.com/installss01.JPG" alt=""></p>
-<h5 id="2-安装Shadowsocks"><a href="#2-安装Shadowsocks" class="headerlink" title="2.安装Shadowsocks"></a>2.安装Shadowsocks</h5><p>Debian / Ubuntu:</p>
-<pre><code>    apt-get install python-pip
-    pip install shadowsocks
-</code></pre>
-CentOS:
-<pre><code>    yum install python-setuptools && easy_install pip
-    pip install shadowsocks
-</code></pre>
+<h3 id="【摘要】"><a href="#【摘要】" class="headerlink" title="【摘要】"></a>【摘要】</h3><p>一种新的加密算法被提出，公开这种算法的加密密钥并不会导致解密密钥的泄漏。由此可以得出两个重要的结论：<br>1.从一段信息用加密密钥加密，到预定的接收者解密之前，都不需要用信使或者其他的安全的手段传输密钥。只有那一个接收者拥有对应的解密密钥，也就只有那一个接收者能够解密这段加密了的信息。</p>
+<p>2.通过使用私有的解密密钥，能够唯一标记一段信息（称为对信息进行签名）。每个人都能够使用对应的公开的加密密钥来验证这段信息的签名。签名不能伪造，签名者也不能在签名之后否认签名的有效性。这在电子邮件系统或者电子转账系统方面有很显著的应用。</p>
+<p>加密的过程是将一段信息表示成数字M，计算M<sup>e</sup>的值，其中e是一个随机数；再计算M<sup>e</sup>/n的余数，余数就是被加密了的信息，其中n是两个质数p和q的乘积。解密的过程和加密的过程相似，是有一个不同点，需要使用d，其中d有e·d ≡ 1 (mod (p-1)·(q-1))计算得到。这种加密系统的安全性在于将n分解成两个质数在某种程度上是很困难的。</p>
+<h3 id="Ⅰ-简介"><a href="#Ⅰ-简介" class="headerlink" title="Ⅰ 简介"></a>Ⅰ 简介</h3><p>电子邮件的时代很快就要来了，我们必须确保电子邮件也具备当前“纸质邮件”的两种特性：(a)信息是私密的；(b)能够在信息上签名。我们在这篇论文上论证如何使电子邮件系统也具有这些特性。</p>
+<p>我们论文的核心是提出一种新的加密方法。这种加密使用了“公开密钥”的方法，这是由Whitfield Diffie和Martin Hellman提出的一种非常棒的加密思路。自从他们提出了这种加密概念，但没有任何实际的系统实现。我们的研究是受Whitfield Diffie和Martin Hellman的文章而进行的。读者如果很熟悉的话可以跳过部分内容，阅读第五部分查看我们对公开密钥加密的实现描述。</p>
+<h3 id="II-公开密钥加密"><a href="#II-公开密钥加密" class="headerlink" title="II 公开密钥加密"></a>II 公开密钥加密</h3><p>在“公开密钥加密”系统中，每一个用户在一个公共的文件中都有一个加密的过程E。这就是说这个公共文件是给每个用户在加密的过程中使用的，这个文件如同字典一样。每个用户同时还秘密保存着对应的解密过程D。这些过程有以下四点性质：<br>(a)将被加密的信息M解密还能产生M。用公式表示：</p>
+<center>D(E(M)) = M<center><br><br>(b)过程E和D都便于求得。<br><br>(c)通过公开加密过程D给每个用户不会泄漏计算解密过程D的简单方法。这意味着在实际中，加密系统中的用户只能使用E加密信息，否则只能非常没效率的计算解密过程D。<br><br>(d)如果信息M先经过解密过程，再经过加密过程，得到的结果还是M。<center><br><center>E(D(M)) = M</center>
 
-<h5 id="3-配置Shadowsocks"><a href="#3-配置Shadowsocks" class="headerlink" title="3.配置Shadowsocks"></a>3.配置Shadowsocks</h5><p>创建/etc/shadowsocks.json文件，文件内容如下</p>
-<p><pre><code>{<br>    “server”:”::”,<br>    “server_port”:5435,<br>    “local_address”: “127.0.0.1”,<br>    “local_port”:1080,<br>    “password”:”mypassword”,<br>    “timeout”:300,<br>    “method”:”aes-256-cfb”<br>}</code></pre><br>其中</p>
-<ul>
-<li>server字段填::的意思是服务器同时监听IPv4和IPv6，可以改成指定的IPv4或IPv6地址。</li>
-<li>server_port字段是服务器监听的端口号，避免使用周知端口号。</li>
-<li>method是加密方式，RC4或者ASE均可。</li>
-</ul>
-<h5 id="4-启动"><a href="#4-启动" class="headerlink" title="4.启动"></a>4.启动</h5><pre><code>ssserver -c /etc/shadowsocks.json -d start
-</code></pre><p>停止的话将start改成stop即可。</p>
-<p>至此，服务器端的搭建就已经完成了。</p>
-
+<p>一个典型的加密或解密系统包含加密方法和加密密钥。通常的做法是在密钥的控制下，加密方法将一段信息M转换成特定形式的消息，称为密文C。每个人都使用同样的加密方法；这种加密的安全性取决于密钥的安全性。加密算法的泄漏也就意味着加密密钥的泄漏。</p>
+<p>在公开密钥加密算法中，当用户公开加密过程E的同时，也提供了一种非常没效率的解密方法来计算D(C):测试消息M的所有可能，直到找到M使得E(M)=C成立。如果性质(c)满足，这样的测试方法会由于计算量过于庞大以至于这是一种不切实际的做法。</p>
+<p>一个加密过程E满足性质(a)-(c)就是一个单向陷阱门；如果同时也满足性质(e)，则这是一个单向可变陷阱门。Diffie和Hellman介绍了单向陷阱门的概念但没有给出任何例子。这些过程叫做“单向”是因为向一个目标进行计算很容易，但反方向计算却很困难。他们被称为可变陷阱门是因为一旦知道陷阱门隐藏的信息，反方向的计算也会很容易。一个单向陷阱门满足性质(d)就一定是可变换的：所有的消息都是其他消息的密文，每一个密文都有它们自己的解密方法。性质(d)只有在签名的时候需要使用。</p>
+<p>我们鼓励读者阅读Whitfield Diffie和Martin Hellman的那篇具有创造性的文章来了解更多的背景，可以帮助了解公开密钥加密的思想和密码学领域的其他问题。公开密钥加密算法能够保证私密性以及能对信息签名都得力于Diffie和Hellman的研究。</p>
+<p>在我们的场景中，我们假设有A和B（我们所熟知的Alice和Bob）是公开密钥加密系统中的两个用户。我们将A和B的加密和解密过程用E<sub>A</sub>、D<sub>A</sub>、E<sub>B</sub>、D<sub>B</sub>来表示。</p>
+<h3 id="III-私密性"><a href="#III-私密性" class="headerlink" title="III 私密性"></a>III 私密性</h3><p>加密是保证通信私密性的常规方法。信息发送者给接收者发送信息之前进行对信息进行加密。接收者（不包括位授权的接收者）知道解密的方法，解密之后得到未被加密的信息。窃听者如果不知道信息解密的方法，那他收到的只是杂乱的“垃圾”（加密之后的密文）。</p>
+<p>大量的个人信息和敏感信息存放在数据库中，在电话线中传输加密的数据变得越来越重要了。注意到高效、有质量是加密技术所必备的，但却在现在的加密系统中缺乏</p>
+</center></center></center>
       
     </div>
 
@@ -308,28 +300,18 @@ CentOS:
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/IPv6/" rel="tag">#IPv6</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/PollutionAboutDNS/" rel="next" title="DNS污染的原理浅析及解决方案的初探">
-                <i class="fa fa-chevron-left"></i> DNS污染的原理浅析及解决方案的初探
+              <a href="/2016/Learn-about-Data-Alignment/" rel="next" title="数据对齐学习笔记">
+                <i class="fa fa-chevron-left"></i> 数据对齐学习笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/A-picture-about-overflow/" rel="prev" title="从一张关于溢出的图片说起">
-                从一张关于溢出的图片说起 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -355,8 +337,8 @@ CentOS:
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/install-ss-on-linux/"
-           data-title="基于校园网IPv6环境下的免费上网教程" data-url="http://www.aragakki.com/2016/install-ss-on-linux/">
+      <div class="ds-thread" data-thread-key="2016/Translation-about-RSA/"
+           data-title="一种获得数字签名和公开密钥加密的方法" data-url="http://www.aragakki.com/2016/Translation-about-RSA/">
       </div>
     
   </div>
@@ -452,7 +434,7 @@ CentOS:
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#理论基础"><span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开始配置"><span class="nav-text">开始配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-登陆到服务器"><span class="nav-text">1.登陆到服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-安装Shadowsocks"><span class="nav-text">2.安装Shadowsocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-配置Shadowsocks"><span class="nav-text">3.配置Shadowsocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-启动"><span class="nav-text">4.启动</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#【摘要】"><span class="nav-text">【摘要】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ⅰ-简介"><span class="nav-text">Ⅰ 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-公开密钥加密"><span class="nav-text">II 公开密钥加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-私密性"><span class="nav-text">III 私密性</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

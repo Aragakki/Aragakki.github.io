@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.aragakki.com/2016/Translation-about-RSA/</loc>
+    
+    <lastmod>2016-05-31T13:28:50.111Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.aragakki.com/2016/PollutionAboutDNS/</loc>
+    
+    <lastmod>2016-05-30T06:23:34.553Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.aragakki.com/2016/Invariant-and-Loop-invariant/</loc>
     
     <lastmod>2016-05-22T13:21:40.703Z</lastmod>
@@ -26,13 +40,6 @@
     <loc>http://www.aragakki.com/2016/Learn-about-Data-Alignment/</loc>
     
     <lastmod>2016-05-22T13:09:54.051Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.aragakki.com/2016/PollutionAboutDNS/</loc>
-    
-    <lastmod>2016-04-19T13:38:10.320Z</lastmod>
     
   </url>
   
