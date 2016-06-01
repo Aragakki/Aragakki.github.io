@@ -59,16 +59,16 @@
 
 
 
-<meta name="description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
+<meta name="description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一种获得数字签名和公开密钥加密的方法">
 <meta property="og:url" content="http://www.aragakki.com/2016/Translation-about-RSA/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
-<meta property="og:updated_time" content="2016-05-31T13:28:50.111Z">
+<meta property="og:description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
+<meta property="og:updated_time" content="2016-06-01T13:24:51.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种获得数字签名和公开密钥加密的方法">
-<meta name="twitter:description" content="数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2n（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。">
+<meta name="twitter:description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
 
 
 
@@ -271,8 +271,7 @@
       
 
       
-        <p>数据对齐是计算机系统对数据在内存中存放位置的限制，所以数据对齐被称为内存对齐。数据对齐要求某些类型的对象存放的地址为2<sup>n</sup>（n=1,2,3）的倍数,也就是说对象的地址最低位为0或者最低两位为0等。</p>
- <a id="more"></a>
+        <p>《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。<br> <a id="more"></a></p>
 <h3 id="【摘要】"><a href="#【摘要】" class="headerlink" title="【摘要】"></a>【摘要】</h3><p>一种新的加密算法被提出，公开这种算法的加密密钥并不会导致解密密钥的泄漏。由此可以得出两个重要的结论：<br>1.从一段信息用加密密钥加密，到预定的接收者解密之前，都不需要用信使或者其他的安全的手段传输密钥。只有那一个接收者拥有对应的解密密钥，也就只有那一个接收者能够解密这段加密了的信息。</p>
 <p>2.通过使用私有的解密密钥，能够唯一标记一段信息（称为对信息进行签名）。每个人都能够使用对应的公开的加密密钥来验证这段信息的签名。签名不能伪造，签名者也不能在签名之后否认签名的有效性。这在电子邮件系统或者电子转账系统方面有很显著的应用。</p>
 <p>加密的过程是将一段信息表示成数字M，计算M<sup>e</sup>的值，其中e是一个随机数；再计算M<sup>e</sup>/n的余数，余数就是被加密了的信息，其中n是两个质数p和q的乘积。解密的过程和加密的过程相似，是有一个不同点，需要使用d，其中d有e·d ≡ 1 (mod (p-1)·(q-1))计算得到。这种加密系统的安全性在于将n分解成两个质数在某种程度上是很困难的。</p>
@@ -287,7 +286,8 @@
 <p>我们鼓励读者阅读Whitfield Diffie和Martin Hellman的那篇具有创造性的文章来了解更多的背景，可以帮助了解公开密钥加密的思想和密码学领域的其他问题。公开密钥加密算法能够保证私密性以及能对信息签名都得力于Diffie和Hellman的研究。</p>
 <p>在我们的场景中，我们假设有A和B（我们所熟知的Alice和Bob）是公开密钥加密系统中的两个用户。我们将A和B的加密和解密过程用E<sub>A</sub>、D<sub>A</sub>、E<sub>B</sub>、D<sub>B</sub>来表示。</p>
 <h3 id="III-私密性"><a href="#III-私密性" class="headerlink" title="III 私密性"></a>III 私密性</h3><p>加密是保证通信私密性的常规方法。信息发送者给接收者发送信息之前进行对信息进行加密。接收者（不包括位授权的接收者）知道解密的方法，解密之后得到未被加密的信息。窃听者如果不知道信息解密的方法，那他收到的只是杂乱的“垃圾”（加密之后的密文）。</p>
-<p>大量的个人信息和敏感信息存放在数据库中，在电话线中传输加密的数据变得越来越重要了。注意到高效、有质量是加密技术所必备的，但却在现在的加密系统中缺乏</p>
+<p>大量的个人信息和敏感信息存放在数据库中，在电话线中传输加密的数据变得越来越重要了。注意到高效、有质量是加密技术所必备的，但现在的加密系统并不具备这些特性，美国国家标准局采用了一种IBM开发的数据加密标准[13,14]。但新标准不具有性质c，需要使用公开密钥加密的方法。</p>
+<p>所有经典的加密算法（包括NBS标准在内的）都不能解决安全分发密钥的问题。密钥分发的问题是在私密通讯开始之前，必须使用其他私密的手段分发加密密钥和解密密钥给发送者和接收者。</p>
 </center></center></center>
       
     </div>
