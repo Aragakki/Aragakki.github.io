@@ -65,7 +65,7 @@
 <meta property="og:url" content="http://www.aragakki.com/2016/Translation-about-RSA/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
 <meta property="og:description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
-<meta property="og:updated_time" content="2016-06-01T15:12:36.071Z">
+<meta property="og:updated_time" content="2016-06-04T16:05:10.383Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种获得数字签名和公开密钥加密的方法">
 <meta name="twitter:description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
@@ -291,6 +291,18 @@
 <p>在一个公开密钥加密系统中，Bob要如何发送私密的信息M给Alice呢？首先，Bob先在公共文件中获得Alice公开的加密密钥E<sub>A</sub>。Alice通过D<sub>A</sub>(E<sub>A</sub>(M))=M来计算获得消息M。由于公开加密密钥系统的特性c，只有Alice能够将E<sub>A</sub>(M)解密。Alice可以用Bob的加密密钥E<sub>B</sub>给Bob私密的回复，E<sub>B</sub>是从公共文件中获得。</p>
 <p>两个用户够通过查看公共文件就能够在不安全的信道中建立私密的联系。每个用户发送他的加密密钥给其他人。之后，在公开密钥加密系统中，所有的信息被加密密钥加密处理过了。由于从加密密钥计算得到解密密钥是几乎不可能的事情，所以窃听者在信道中无法解密任何信息。（我们假设窃听者不能改变或者增加信道中的信息）。Ralph Merkle已经提出了解决该问题[5]的其他方法。</p>
 <p>一个公开加密密钥系统能够作为其他标准加密过程的第一步，例如NBS的加密方法。在NBS系统中，一旦私密的通信信道被建立，最先发送的是NBS的密钥，之后的信息就可以用密钥来加密。如果我们的公开密钥算法的速度比其他标准的加密算法慢，那么这是一个可行性很高的方法。（在特定的机器上运行NBS的加密/解密速度会很快；我们的公开密钥加密算法在通用计算机上会比NBS的更快，因为在二进制的机器上容易进行乘法运算。）</p>
+<h3 id="IV-签名"><a href="#IV-签名" class="headerlink" title="IV 签名"></a>IV 签名</h3><p>如果电子邮件系统在商业上要取代现有的纸质邮件，那一定要有在电子邮件上“签名”的功能。带有签名信息的接收者能够辨别出信息是否来自发送者（而不是其他人伪造的）。“签名”的做法比只进行用户认证的做法更有效；接收者能够相信“法官”的判断，判断接收到的消息是否来自发送者。为了保证签名的可靠性，他必须使法官相信他自己不会伪造签名。数字签名使得接收者可以自行确认信息是否来自发送者，接收者不需要担心信息是否是其他人伪造的。</p>
+<p>电子签名必须是消息依赖的，就像签名者依赖一样。否则接收者可以在给法官展示信息-签名之前修改它们。否则他就有可能将原有签名“剪下”，再将签名“粘贴”其它信息上。</p>
+<p>为了让公开密钥加密系统具有签名的功能，加密系统必须是单向可置换的陷阱门（这也证明了性质d），否则解密算法有可能作用在一个非加密的信息上。</p>
+<p>在公开密钥加密系统中，Bob要如何给Alice发送一段带签名的消息M呢？Bob首先使用他的解密密钥D<sub>B</sub>来计算信息M的“签名”：<br>S=D<sub>B</sub>(M)<br>（在公开密钥加密系统中，将一段未加密的信息进行解密操作是可行的，这是由于性质d：每个信息是其他信息的密文。）然后Bob使用E<sub>A</sub>加密S（这一步是保证通讯的私密性），最后Bob将加密结果E<sub>A</sub>(S)发送给Alice。Bob不用直接发送原始消息M给Alice，M可以从S计算可得。</p>
+<p>Alice收到信息之后，先使用D<sub>A</sub>将密文解密得到S。她知道这段信息可能的发送者（在我们这个例子中是Bob）；如果必要的话，这可以从签名后的消息S中得到。Alice最后用Bob的加密密钥E<sub>B</sub>来提取原始消息M，在这个例子中：<br>M=E<sub>B</sub>(S)<br>她现在拥有一个信息-签名对（M,S），数字签名就像是文档上的签名。</p>
+<p>Bob随后不能否认他曾向Alice发送过消息，因为出了Bobby，没有人能够给出S=D<sub>B</sub>(M)。Alice能够让“法官”相信E<sub>B</sub>(S)=M，所以她能证实Bob签名了这个文档。</p>
+<p>显然，Alice不能将信息M改为其它版本的M’，这是由于她必须为新的消息M’创新对应的签名S’=D<sub>B</sub>(M’)。</p>
+<p>因此，Alice收到一段由Bob”签名“的消息，她能够证实这是Bob发送的，但她不能够更改原有的消息。（她同样不能为其它的消息伪造Bob的签名。）</p>
+<p>可以基于上述签名的方法完成一个电子检测系统。很容易想象在你的终端有一台加密设备允许你进行签名检查，它可以检查你和收款人收发的电子邮件的签名。只需要在每张支票上加上一个独一无二的支票号，即使收款人伪造了支票，银行也只会相信最早见到的支票。</p>
+<p>另一个可能出现的问题是加密设备是否足够的快：在一个电话交谈中，在传输之前对每个单词进行签名要成为可能。</p>
+<p>当加密用在上述签名的时候，由于一段消息可能被几种不同的密钥加密，加密设备不要被固定在终端和通讯信道。更好的方法是将加密设备看成“硬件子程序”，在需要的时候才执行。</p>
+<p>我们在上面已经假设系统中的每个用户总是能够访问公共的文件。但在计算机网络中，这可能有些困难；“入侵者”可能会伪造公共文件的信息。用户想要确保他们实际使用中，在获取加密密钥的时候得到的是他们想要的密钥，而不是得到“入侵者”的加密密钥。不过这个问题可以解决，只要公共文件给用户的文件都是签名过的，</p>
 </center></center></center>
       
     </div>
@@ -437,7 +449,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#【摘要】"><span class="nav-text">【摘要】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ⅰ-简介"><span class="nav-text">Ⅰ 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-公开密钥加密"><span class="nav-text">II 公开密钥加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-私密性"><span class="nav-text">III 私密性</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#【摘要】"><span class="nav-text">【摘要】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ⅰ-简介"><span class="nav-text">Ⅰ 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-公开密钥加密"><span class="nav-text">II 公开密钥加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-私密性"><span class="nav-text">III 私密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IV-签名"><span class="nav-text">IV 签名</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
