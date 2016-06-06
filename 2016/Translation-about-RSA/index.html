@@ -65,7 +65,7 @@
 <meta property="og:url" content="http://www.aragakki.com/2016/Translation-about-RSA/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
 <meta property="og:description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
-<meta property="og:updated_time" content="2016-06-04T16:05:10.383Z">
+<meta property="og:updated_time" content="2016-06-05T13:33:30.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种获得数字签名和公开密钥加密的方法">
 <meta name="twitter:description" content="《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》是1978年发表在《ACM通讯》上的一篇文章，文章的作者Ron Rivest、Adi Shamir和Leonard Adleman提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。">
@@ -302,7 +302,7 @@
 <p>可以基于上述签名的方法完成一个电子检测系统。很容易想象在你的终端有一台加密设备允许你进行签名检查，它可以检查你和收款人收发的电子邮件的签名。只需要在每张支票上加上一个独一无二的支票号，即使收款人伪造了支票，银行也只会相信最早见到的支票。</p>
 <p>另一个可能出现的问题是加密设备是否足够的快：在一个电话交谈中，在传输之前对每个单词进行签名要成为可能。</p>
 <p>当加密用在上述签名的时候，由于一段消息可能被几种不同的密钥加密，加密设备不要被固定在终端和通讯信道。更好的方法是将加密设备看成“硬件子程序”，在需要的时候才执行。</p>
-<p>我们在上面已经假设系统中的每个用户总是能够访问公共的文件。但在计算机网络中，这可能有些困难；“入侵者”可能会伪造公共文件的信息。用户想要确保他们实际使用中，在获取加密密钥的时候得到的是他们想要的密钥，而不是得到“入侵者”的加密密钥。不过这个问题可以解决，只要公共文件给用户的文件都是签名过的，</p>
+<p>我们在上面已经假设系统中的每个用户总是能够访问公共的文件。但在计算机网络中，这可能有些困难；“入侵者”可能会伪造公共文件的信息。用户想要确保他们实际使用中，在获取加密密钥的时候得到的是他们想要的密钥，而不是得到“入侵者”的加密密钥。不过这个问题可以解决，只要保证公共文件给用户的文件都是签名过的。每个用户使用公共文件的加密密钥E<sub>PF</sub>检查签名。为了避免用户自己“寻找”E<sub>PF</sub>，当一个用户第一次加入到公开密钥加密系统中的时候，给他E<sub>PF</sub>的描述，并记录下他的加密密钥E。然后他存储下这个加密密钥，从而不再重复查询。我们不需要在两个用户之间使用信使来传递密钥，取而代之的是当用户加入到加密系统中，保证每个用户间单一交流的安全和管理者管理公共文件。</p>
 </center></center></center>
       
     </div>
