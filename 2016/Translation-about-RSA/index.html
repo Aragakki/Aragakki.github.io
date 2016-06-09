@@ -1,0 +1,760 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta name="google-site-verification" content="KsBP1EYFqmzFQTSM-v-LlnbEEcE9c-QTL1qOkQt-LEE" />
+<meta name="baidu-site-verification" content="cVmRPhqLFJ" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="翻译," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Translation】一种获得数字签名和公开密钥加密的方法">
+<meta property="og:url" content="http://www.aragakki.com/2016/Translation-about-RSA/index.html">
+<meta property="og:site_name" content="Aragaki's Blog">
+<meta property="og:description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+<meta property="og:updated_time" content="2016-06-09T13:22:23.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Translation】一种获得数字签名和公开密钥加密的方法">
+<meta name="twitter:description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【Translation】一种获得数字签名和公开密钥加密的方法 | Aragaki's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Aragaki's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【Translation】一种获得数字签名和公开密钥加密的方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-29T21:10:19+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Note</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/Translation-about-RSA/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/Translation-about-RSA/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文。<br> <a id="more"></a></p>
+<h3 id="【摘要】"><a href="#【摘要】" class="headerlink" title="【摘要】"></a>【摘要】</h3><p>我们提出一种新的加密算法，公开该加密算法的加密密钥并不会导致解密密钥的泄漏。由此可以得出两个重要的结论：<br>1.从一段信息用加密密钥加密，到预定的接收者解密之前，都不需要用信使或者其他的安全的手段传输密钥。只有那一个接收者拥有对应的解密密钥，也就只有那一个接收者能够解密这段加密了的信息。</p>
+<p>2.通过使用私有的解密密钥，能够唯一标记一段信息（称为对信息进行签名）。每个人都能够使用对应的公开的加密密钥来验证这段信息的签名。签名不能伪造，签名者也不能在签名之后否认签名的有效性。这在电子邮件系统或者电子转账系统方面有很显著的应用。</p>
+<p>加密的过程是将一段信息表示成数字M，计算M<sup>e</sup>的值，其中e是一个随机数；再计算M<sup>e</sup>/n的余数，余数就是被加密了的信息，其中n是两个质数p和q的乘积。解密的过程和加密的过程相似，是有一个不同点，需要使用d，其中d有e·d ≡ 1 (mod (p-1)·(q-1))计算得到。这种加密系统的安全性在于将n分解成两个质数在某种程度上是很困难的。</p>
+<h3 id="Ⅰ-简介"><a href="#Ⅰ-简介" class="headerlink" title="Ⅰ 简介"></a>Ⅰ 简介</h3><p>电子邮件的时代很快就要来了，我们必须确保电子邮件也具备当前“纸质邮件”的两种特性：(a)信息是私密的；(b)能够在信息上签名。我们在这篇论文上论证如何使电子邮件系统也具有这些特性。</p>
+<p>我们论文的核心是提出一种新的加密方法。这种加密使用了“公开密钥”的方法，这是由Whitfield Diffie和Martin Hellman提出的一种非常棒的加密思路。自从他们提出了这种加密概念，但没有任何实际的系统实现。我们的研究是受Whitfield Diffie和Martin Hellman的文章而进行的。读者如果很熟悉的话可以跳过部分内容，阅读第五部分查看我们对公开密钥加密的实现描述。</p>
+<h3 id="II-公开密钥加密"><a href="#II-公开密钥加密" class="headerlink" title="II 公开密钥加密"></a>II 公开密钥加密</h3><p>在“公开密钥加密”系统中，每一个用户在一个公共的文件中都有一个加密的过程E。这就是说这个公共文件是给每个用户在加密的过程中使用的，这个文件如同字典一样。每个用户同时还秘密保存着对应的解密过程D。这些过程有以下四点性质：<br>(a)将被加密的信息M解密还能产生M。用公式表示：</p>
+<center>D(E(M)) = M<center><br><br>(b)过程E和D都便于求得。<br><br>(c)通过公开加密过程D给每个用户不会泄漏计算解密过程D的简单方法。这意味着在实际中，加密系统中的用户只能使用E加密信息，否则只能非常没效率的计算解密过程D。<br><br>(d)如果信息M先经过解密过程，再经过加密过程，得到的结果还是M。<center><br><center>E(D(M)) = M</center>
+
+<p>一个典型的加密或解密系统包含加密方法和加密密钥。通常的做法是在密钥的控制下，加密方法将一段信息M转换成特定形式的消息，称为密文C。每个人都使用同样的加密方法；这种加密的安全性取决于密钥的安全性。加密算法的泄漏也就意味着加密密钥的泄漏。</p>
+<p>在公开密钥加密算法中，当用户公开加密过程E的同时，也提供了一种非常没效率的解密方法来计算D(C):测试消息M的所有可能，直到找到M使得E(M)=C成立。如果性质(c)满足，这样的测试方法会由于计算量过于庞大以至于这是一种不切实际的做法。</p>
+<p>一个加密过程E满足性质(a)-(c)就是一个单向陷阱门；如果同时也满足性质(e)，则这是一个单向可变陷阱门。Diffie和Hellman介绍了单向陷阱门的概念但没有给出任何例子。这些过程叫做“单向”是因为向一个目标进行计算很容易，但反方向计算却很困难。他们被称为可变陷阱门是因为一旦知道陷阱门隐藏的信息，反方向的计算也会很容易。一个单向陷阱门满足性质(d)就一定是可变换的：所有的消息都是其他消息的密文，每一个密文都有它们自己的解密方法。性质(d)只有在签名的时候需要使用。</p>
+<p>我们鼓励读者阅读Whitfield Diffie和Martin Hellman的那篇具有创造性的文章来了解更多的背景，可以帮助了解公开密钥加密的思想和密码学领域的其他问题。公开密钥加密算法能够保证私密性以及能对信息签名都得力于Diffie和Hellman的研究。</p>
+<p>在我们的场景中，我们假设有A和B（我们所熟知的Alice和Bob）是公开密钥加密系统中的两个用户。我们将A和B的加密和解密过程用E<sub>A</sub>、D<sub>A</sub>、E<sub>B</sub>、D<sub>B</sub>来表示。</p>
+<h3 id="III-私密性"><a href="#III-私密性" class="headerlink" title="III 私密性"></a>III 私密性</h3><p>加密是保证通信私密性的常规方法。信息发送者给接收者发送信息之前进行对信息进行加密。接收者（不包括位授权的接收者）知道解密的方法，解密之后得到未被加密的信息。窃听者如果不知道信息解密的方法，那他收到的只是杂乱的“垃圾”（加密之后的密文）。</p>
+<p>大量的个人信息和敏感信息存放在数据库中，在电话线中传输加密的数据变得越来越重要了。注意到高效、有质量是加密技术所必备的，但现在的加密系统并不具备这些特性，美国国家标准局采用了一种IBM开发的数据加密标准[13,14]。但新标准不具有性质c，需要使用公开密钥加密的方法。</p>
+<p>所有传统的加密算法（包括NBS标准在内的）都不能解决安全分发密钥的问题。密钥分发的问题是在私密通讯开始之前，必须使用其他私密的手段将加密密钥和解密密钥分发给发送者和接收者。传统的做法是发送者使用私密的信使将密钥传送给接收者。但是这样的做法在电子邮件系统中就很慢、成本也不低，所以传统的做法在电子邮件中并不可行。公开密钥加密系统中部需要私密的信使来传送密钥；密钥可以通过不安全的通信信道来分发。</p>
+<p>在一个公开密钥加密系统中，Bob要如何发送私密的信息M给Alice呢？首先，Bob先在公共文件中获得Alice公开的加密密钥E<sub>A</sub>。Alice通过D<sub>A</sub>(E<sub>A</sub>(M))=M来计算获得消息M。由于公开加密密钥系统的特性c，只有Alice能够将E<sub>A</sub>(M)解密。Alice可以用Bob的加密密钥E<sub>B</sub>给Bob私密的回复，E<sub>B</sub>是从公共文件中获得。</p>
+<p>两个用户够通过查看公共文件就能够在不安全的信道中建立私密的联系。每个用户发送他的加密密钥给其他人。之后，在公开密钥加密系统中，所有的信息被加密密钥加密处理过了。由于从加密密钥计算得到解密密钥是几乎不可能的事情，所以窃听者在信道中无法解密任何信息。（我们假设窃听者不能改变或者增加信道中的信息）。Ralph Merkle已经提出了解决该问题[5]的其他方法。</p>
+<p>一个公开加密密钥系统能够作为其他标准加密过程的第一步，例如NBS的加密方法。在NBS系统中，一旦私密的通信信道被建立，最先发送的是NBS的密钥，之后的信息就可以用密钥来加密。如果我们的公开密钥算法的速度比其他标准的加密算法慢，那么这是一个可行性很高的方法。（在特定的机器上运行NBS的加密/解密速度会很快；我们的公开密钥加密算法在通用计算机上会比NBS的更快，因为在二进制的机器上容易进行乘法运算。）</p>
+<h3 id="IV-签名"><a href="#IV-签名" class="headerlink" title="IV 签名"></a>IV 签名</h3><p>如果电子邮件系统在商业上要取代现有的纸质邮件，那一定要有在电子邮件上“签名”的功能。带有签名信息的接收者能够辨别出信息是否来自发送者（而不是其他人伪造的）。“签名”的做法比只进行用户认证的做法更有效；接收者能够相信“法官”的判断，判断接收到的消息是否来自发送者。为了保证签名的可靠性，他必须使法官相信他自己不会伪造签名。数字签名使得接收者可以自行确认信息是否来自发送者，接收者不需要担心信息是否是其他人伪造的。</p>
+<p>电子签名必须是消息依赖的，就像签名者依赖一样。否则接收者可以在给法官展示信息-签名之前修改它们。否则他就有可能将原有签名“剪下”，再将签名“粘贴”其它信息上。</p>
+<p>为了让公开密钥加密系统具有签名的功能，加密系统必须是单向可置换的陷阱门（这也证明了性质d），否则解密算法有可能作用在一个非加密的信息上。</p>
+<p>在公开密钥加密系统中，Bob要如何给Alice发送一段带签名的消息M呢？Bob首先使用他的解密密钥D<sub>B</sub>来计算信息M的“签名”：<br>S=D<sub>B</sub>(M)<br>（在公开密钥加密系统中，将一段未加密的信息进行解密操作是可行的，这是由于性质d：每个信息是其他信息的密文。）然后Bob使用E<sub>A</sub>加密S（这一步是保证通讯的私密性），最后Bob将加密结果E<sub>A</sub>(S)发送给Alice。Bob不用直接发送原始消息M给Alice，M可以从S计算可得。</p>
+<p>Alice收到信息之后，先使用D<sub>A</sub>将密文解密得到S。她知道这段信息可能的发送者（在我们这个例子中是Bob）；如果必要的话，这可以从签名后的消息S中得到。Alice最后用Bob的加密密钥E<sub>B</sub>来提取原始消息M，在这个例子中：<br>M=E<sub>B</sub>(S)<br>她现在拥有一个信息-签名对（M,S），数字签名就像是文档上的签名。</p>
+<p>Bob随后不能否认他曾向Alice发送过消息，因为出了Bobby，没有人能够给出S=D<sub>B</sub>(M)。Alice能够让“法官”相信E<sub>B</sub>(S)=M，所以她能证实Bob签名了这个文档。</p>
+<p>显然，Alice不能将信息M改为其它版本的M’，这是由于她必须为新的消息M’创新对应的签名S’=D<sub>B</sub>(M’)。</p>
+<p>因此，Alice收到一段由Bob”签名“的消息，她能够证实这是Bob发送的，但她不能够更改原有的消息。（她同样不能为其它的消息伪造Bob的签名。）</p>
+<p>可以基于上述签名的方法完成一个电子检测系统。很容易想象在你的终端有一台加密设备允许你进行签名检查，它可以检查你和收款人收发的电子邮件的签名。只需要在每张支票上加上一个独一无二的支票号，即使收款人伪造了支票，银行也只会相信最早见到的支票。</p>
+<p>另一个可能出现的问题是加密设备是否足够的快：在一个电话交谈中，在传输之前对每个单词进行签名要成为可能。</p>
+<p>当加密用在上述签名的时候，由于一段消息可能被几种不同的密钥加密，加密设备不要被固定在终端和通讯信道。更好的方法是将加密设备看成“硬件子程序”，在需要的时候才执行。</p>
+<p>我们在上面已经假设系统中的每个用户总是能够访问公共的文件。但在计算机网络中，这可能有些困难；“入侵者”可能会伪造公共文件的信息。用户想要确保他们实际使用中，在获取加密密钥的时候得到的是他们想要的密钥，而不是得到“入侵者”的加密密钥。不过这个问题可以解决，只要保证公共文件给用户的文件都是签名过的。每个用户使用公共文件的加密密钥E<sub>PF</sub>检查签名。为了避免用户自己“寻找”E<sub>PF</sub>，当一个用户第一次加入到公开密钥加密系统中的时候，给他E<sub>PF</sub>的描述，并记录下他的加密密钥E。然后他存储下这个加密密钥，从而不再重复查询。我们不需要在两个用户之间使用信使来传递密钥，取而代之的是当用户加入到加密系统中，保证每个用户间单一交流的安全和使用管理者来管理公共文件。另一个解决方案是当用户加入到系统中的时候，给每个新加入的用户一个包含系统中所有用户的加密密钥的文件（这文件像是电话本一样）。</p>
+</center></center></center>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag">#翻译</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/Learn-about-Data-Alignment/" rel="next" title="数据对齐学习笔记">
+                <i class="fa fa-chevron-left"></i> 数据对齐学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/Translation-about-RSA/"
+           data-title="【Translation】一种获得数字签名和公开密钥加密的方法" data-url="http://www.aragakki.com/2016/Translation-about-RSA/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Mengwei" />
+          <p class="site-author-name" itemprop="name">Mengwei</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#【摘要】"><span class="nav-text">【摘要】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ⅰ-简介"><span class="nav-text">Ⅰ 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-公开密钥加密"><span class="nav-text">II 公开密钥加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-私密性"><span class="nav-text">III 私密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IV-签名"><span class="nav-text">IV 签名</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mengwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wodedspl"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
