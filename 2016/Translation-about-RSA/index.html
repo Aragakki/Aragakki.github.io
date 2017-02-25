@@ -59,16 +59,19 @@
 
 
 
-<meta name="description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+<meta name="description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。文章提出了一种新的加密算法，是现在我们所熟知且广泛使用的一种非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Translation】一种获得数字签名和公开密钥加密的方法">
 <meta property="og:url" content="http://www.aragakki.com/2016/Translation-about-RSA/index.html">
 <meta property="og:site_name" content="Aragaki's Blog">
-<meta property="og:description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
-<meta property="og:updated_time" content="2016-06-19T15:33:30.214Z">
+<meta property="og:description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。文章提出了一种新的加密算法，是现在我们所熟知且广泛使用的一种非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+<meta property="og:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/rsa02.jpg">
+<meta property="og:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/rsa03.jpg">
+<meta property="og:updated_time" content="2016-11-29T09:09:57.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Translation】一种获得数字签名和公开密钥加密的方法">
-<meta name="twitter:description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+<meta name="twitter:description" content="1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。文章提出了一种新的加密算法，是现在我们所熟知且广泛使用的一种非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文">
+<meta name="twitter:image" content="http://7xt2ht.com2.z0.glb.clouddn.com/rsa02.jpg">
 
 
 
@@ -271,27 +274,28 @@
       
 
       
-        <p>1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。他们提出了一种新的加密算法。也就是现在我们所熟知且广泛使用的非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文。<br> <a id="more"></a></p>
-<h3 id="【摘要】"><a href="#【摘要】" class="headerlink" title="【摘要】"></a>【摘要】</h3><p>我们提出一种新的加密算法，公开该加密算法的加密密钥并不会导致解密密钥的泄漏。由此可以得出两个重要的结论：<br>1.从一段信息用加密密钥加密，到预定的接收者解密之前，都不需要用信使或者其他的安全的手段传输密钥。只有那一个接收者拥有对应的解密密钥，也就只有那一个接收者能够解密这段加密了的信息。</p>
-<p>2.通过使用私有的解密密钥，能够唯一标记一段信息（称为对信息进行签名）。每个人都能够使用对应的公开的加密密钥来验证这段信息的签名。签名不能伪造，签名者也不能在签名之后否认签名的有效性。这在电子邮件系统或者电子转账系统方面有很显著的应用。</p>
-<p>加密的过程是将一段信息表示成数字M，计算M<sup>e</sup>的值，其中e是一个随机数；再计算M<sup>e</sup>/n的余数，余数就是被加密了的信息，其中n是两个质数p和q的乘积。解密的过程和加密的过程相似，是有一个不同点，需要使用d，其中d有e·d ≡ 1 (mod (p-1)·(q-1))计算得到。这种加密系统的安全性在于将n分解成两个质数在某种程度上是很困难的。</p>
-<h3 id="Ⅰ-简介"><a href="#Ⅰ-简介" class="headerlink" title="Ⅰ 简介"></a>Ⅰ 简介</h3><p>电子邮件的时代很快就要来了，我们必须确保电子邮件也具备当前“纸质邮件”的两种特性：(a)信息是私密的；(b)能够在信息上签名。我们在这篇论文上论证如何使电子邮件系统也具有这些特性。</p>
-<p>我们论文的核心是提出一种新的加密方法。这种加密使用了“公开密钥”的方法，这是由Whitfield Diffie和Martin Hellman提出的一种非常棒的加密思路。自从他们提出了这种加密概念，但没有任何实际的系统实现。我们的研究是受Whitfield Diffie和Martin Hellman的文章而进行的。读者如果很熟悉的话可以跳过部分内容，阅读第五部分查看我们对公开密钥加密的实现描述。</p>
-<h3 id="II-公开密钥加密"><a href="#II-公开密钥加密" class="headerlink" title="II 公开密钥加密"></a>II 公开密钥加密</h3><p>在“公开密钥加密”系统中，每一个用户在一个公共的文件中都有一个加密的过程E。这就是说这个公共文件是给每个用户在加密的过程中使用的，这个文件如同字典一样。每个用户同时还秘密保存着对应的解密过程D。这些过程有以下四点性质：</p>
+        <p>1978年《ACM通讯》刊发了一篇由Ron Rivest、Adi Shamir和Leonard Adleman共同完成的文章。文章提出了一种新的加密算法，是现在我们所熟知且广泛使用的一种非对称加密算法————RSA加密算法。原文的标题是《A Method for Obtaining Digital Signatures and Public-Key Cryptosystems》，本文是该文章的译文。<br> <a id="more"></a></p>
+<h3 id="【摘要】"><a href="#【摘要】" class="headerlink" title="【摘要】"></a>【摘要】</h3><p>本文提出一种新的加密算法，公开该加密算法的加密密钥并不会导致解密密钥的泄漏。由此可以得出两个重要的结论：</p>
+<p>1.对一段信息使用加密密钥进行加密，在该信息到预期的接收者之前，不需要用信使或者其他的安全的手段传输解密密钥。只有一个预期的接收者拥有对应的解密密钥，也就只有那一个接收者能够解密这段加密了的信息。</p>
+<p>2.使用私有的解密密钥能够唯一的标记一段信息（称为对信息进行签名）。每个人都能够使用对应的公开的加密密钥来验证这段信息的签名。签名不能伪造，签名者也不能在签名之后否认签名的有效性。这在电子邮件系统或者电子转账系统方面有很显著的应用。</p>
+<p>加密的过程是将一段信息表示成数字M，计算M<sup>e</sup>的值，其中e是一个随机数；再计算M<sup>e</sup>/n的余数，余数就是被加密后的信息，其中n是两个质数p和q的乘积。解密的过程和加密的过程相似，是有一个不同点，需要使用d，其中d由e·d ≡ 1 (mod (p-1)·(q-1))计算得到。这种加密系统的安全性在于将n分解成两个质数在某种程度上是很困难的。</p>
+<h3 id="Ⅰ-简介"><a href="#Ⅰ-简介" class="headerlink" title="Ⅰ 简介"></a>Ⅰ 简介</h3><p>我们将迎来电子邮件的时代，我们必须确保电子邮件也具备当前“纸质邮件”的两种特性：(a)信息是私密的；(b)能够在信息上签名。我们在这篇论文上论证如何使电子邮件系统也具有这些特性。</p>
+<p>我们的方法的核心是提出一种新的加密方法。这种加密使用了“公开密钥”的方法，这是由Whitfield Diffie和Martin Hellman提出的一种开创性的加密思路。自从他们提出了这种加密概念，但没有任何实际的系统实现。我们的研究是受Whitfield Diffie和Martin Hellman文章的启发而进行的。读者如果很熟悉的话可以跳过部分内容，阅读第五部分查看我们对公开密钥加密的实现描述。</p>
+<h3 id="II-公开密钥加密"><a href="#II-公开密钥加密" class="headerlink" title="II 公开密钥加密"></a>II 公开密钥加密</h3><p>在公开密钥加密系统中，每个用户在一个公共的文件中都有一个加密过程E。这个公共文件是给每个用户在加密的过程中使用的，这个文件如同字典一样。每个用户同时还秘密保存着对应的解密过程D。这些过程有以下四点性质：</p>
 <ul>
 <li><p>(a)  将被加密的信息M解密还能产生M。用公式表示：</p>
-<p align="center"> D(E(M)) = M</p>
+<p align="center"> D(E(M)) = M —— (5)</p> 
 </li>
-<li><p>(b)  过程E和D都便于求得。</p>
+<li><p>(b)  过程E和D都便于进行。</p>
 </li>
-<li><p>(c)通过公开加密过程D给每个用户不会泄漏计算解密过程D的简单方法。这意味着在实际中，加密系统中的用户只能使用E加密信息，否则只能非常没效率的计算解密过程D。</p>
+<li><p>(c)通过公开加密过程E给其他用户不会轻易泄漏计算解密过程D的方法。这意味着在实际中，加密系统中的用户只能使用E加密信息，否则几乎不可能破解得到解密过程D。</p>
 </li>
-<li><p>(d)  如果信息M先经过解密过程，再经过加密过程，得到的结果还是M。</p>
+<li><p>(d)  如果信息M先经过解密过程处理，再经过加密过程，得到的结果还是M。</p>
 <center>E(D(M)) = M</center>
 
 </li>
 </ul>
-<p>一个典型的加密或解密系统包含加密方法和加密密钥。通常的做法是在密钥的控制下，加密方法将一段信息M转换成特定形式的信息，称为密文C。每个人都使用同样的加密方法；这种加密的安全性取决于密钥的安全性。加密算法的泄漏也就意味着加密密钥的泄漏。</p>
+<p>一个典型的加密（或解密系统）包含加密方法和加密密钥。通常的做法是在密钥的控制下，加密方法将一段信息M转换成特定形式的信息，称为密文C。每个人都使用同样的加密方法；这种加密的安全性取决于密钥的安全性。加密算法的泄漏也就意味着加密密钥的泄漏。</p>
 <p>在公开密钥加密算法中，当用户公开加密过程E的同时，也提供了一种非常没效率的解密方法来计算D(C):测试信息M的所有可能，直到找到M使得E(M)=C成立。如果性质(c)满足，这样的测试方法会由于计算量过于庞大以至于这是一种不切实际的做法。</p>
 <p>一个加密过程E满足性质(a)-(c)就是一个单向陷阱门；如果同时也满足性质(e)，则这是一个单向可变陷阱门。Diffie和Hellman介绍了单向陷阱门的概念但没有给出任何例子。这些过程叫做“单向”是因为向一个目标进行计算很容易，但反方向计算却很困难。他们被称为可变陷阱门是因为一旦知道陷阱门隐藏的信息，反方向的计算也会很容易。一个单向陷阱门满足性质(d)就一定是可变换的：所有的信息都是其他信息的密文，每一个密文都有它们自己的解密方法。性质(d)只有在签名的时候需要使用。</p>
 <p>我们鼓励读者阅读Whitfield Diffie和Martin Hellman的那篇具有创造性的文章来了解更多的背景，可以帮助了解公开密钥加密的思想和密码学领域的其他问题。公开密钥加密算法能够保证私密性以及能对信息签名都得力于Diffie和Hellman的研究。</p>
@@ -323,17 +327,31 @@
 <p>注意，加密不会导致信息变长；密文和原始信息一样都是0 ~ n-1的整数。</p>
 <p>加密密钥是由一对正整数( e, n )组成。相似地，解密密钥是由正整数对( d, n )组成。每个用户公开他自己的加密密钥，同时保证对应的解密密钥仅仅只有自己知道。（因为每个用户都有不一样的n, d, e，所以这些整数应被确切的描述成n<sub>A</sub>，e<sub>A</sub>，d<sub>A</sub>。不过，在这里我们只考虑一般的情况并忽略了下标。）</p>
 <p>如果你想使用我们的公开密钥加密，要怎么选择加密密钥和解密密钥？</p>
-<p>首先，你先计算n，n是两个质数p和q的乘积：</p>
+<p>首先计算n，n是两个质数p和q的乘积：</p>
 <p align="center"> n = p·q</p>
 
 <p>这些质数都非常大，“随机”的质数。虽然你将会公开n，但是由于将n分解成两个质数将很困难，所以p和q被很好的隐藏了。这也就隐藏了从e得到d的方法。</p>
 <p>然后你随机选择一个大质数d，d小于(p - 1)·(q - 1)。也就是使得d满足：gcd(d; (p - 1)·(q - 1)) = 1。（gcd是greatest common divisor。）</p>
 <p>最后整数e由p、q和d计算得到，e是d对于(p - 1)·(q - 1))的模反元素。所以我们有</p>
-<p align="center"> e·d = 1 (mod (p-1)·(q-1))</p>
+<p align="center"> e·d ≡ 1 (mod (p-1)·(q-1))</p>
 
 <p>我们在下一部分证明这保证了公式 (1) 和 (2) 成立，也就是加密过程E和解密过程D是相互转换的。第VII部分我们展示如何高效的进行每个操作。</p>
 <p>上面提到的方法不要和Diffe、Hellman提出的取幂解决密钥分发问题的技术混在一起。他们的技术允许两个用户在通用的加密系统中传输密钥。这不是基于单向可置换陷阱门。Pohlig和Hellman学习了和我们相关的模式使用了幂次再除以质数求余。</p>
-<h3 id="VI-数学基础"><a href="#VI-数学基础" class="headerlink" title="VI 数学基础"></a>VI 数学基础</h3>
+<h3 id="VI-数学基础"><a href="#VI-数学基础" class="headerlink" title="VI 数学基础"></a>VI 数学基础</h3><p>我们证明解密算法的正确性，基于Euler和Fermat[7]的一致性：对于一个整数M（信息M）和由相关的质素组成的n：</p>
+<p align="center">M<sup>Φ(n)</sup> ≡ 1 (mod n) —— (3)</p><br>这里Φ(n)是欧拉函数，欧拉函数计算小于n的整数中，和n互质的个数。对于一个质素p，Φ(p) = p-1。<br><br>在我们的例子中，对于欧拉函数有基本的性质：<br><p align="center">Φ(n) = Φ(p)·Φ(q) = (p-1)·(q-1) = n - (p + q) + 1 —— (4)</p>
+
+<p>由于d和Φ(n)互质，所以有一个模反元素e使得：</p>
+<p align="center">e·d ≡ 1 (mod Φ(n)) —— (5)</p>
+
+<p>我们现在已经证明等式(1)、(2)成立（也就是如果e和d按照上面的方式选取，解密可以正常进行）。现在<br> <img src="http://7xt2ht.com2.z0.glb.clouddn.com/rsa02.jpg" alt=""><br>和<br> <img src="http://7xt2ht.com2.z0.glb.clouddn.com/rsa03.jpg" alt=""></p>
+<p>从(3)我们可以看到对于所有M，M满足不能被p整除</p>
+<p align="center">M<sup>p-1</sup> ≡ 1 (mod p)</p><br>并且由于(p-1)整除Φ(n)<br><p align="center">M<sup>k·Φ(n)+1</sup> ≡ M (mod p)</p>
+
+<p>当M被p整除的时候，这是很明显的，所以这等式对于所有的M都成立。对于q得出相似的结论</p>
+<p align="center">M<sup>k·Φ(n)+1</sup> ≡ M (mod q)</p>
+
+<p>结合这两条等式，对于所有的M，</p>
+<p align="center">M<sup>e·d</sup> ≡ M<sup>k·Φ(n)+1</sup> ≡ M (mod n)</p>
       
     </div>
 
@@ -507,7 +525,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
